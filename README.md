@@ -1,8 +1,8 @@
-# Logify for Unity
-
 > [!CAUTION]
 > **🚀 Coming Soon!**
 > This asset is currently preparing for release. Please stay tuned for the official launch on the Unity Asset Store.
+
+# Logify for Unity
 
 **[Logify](https://assetstore.unity.com/packages/slug/360718)** is a professional in-game debugging suite optimized for Unity mobile development.
 
