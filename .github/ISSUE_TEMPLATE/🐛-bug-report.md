@@ -13,7 +13,6 @@ A clear and concise description of what the bug is.
 **Environment**
 - **Unity Version**: [e.g. 2022.3.10f1]
 - **Logify-Unity Version**: [e.g. v1.0.2]
-- **Render Pipeline**: [e.g. Built-in / URP]
 
 **Occurrence Platform**
 - **Platform**: [e.g. Unity Editor (Windows), Android, iOS]
