@@ -10,29 +10,28 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Environment**
+- **Unity Version**: [e.g. 2022.3.10f1]
+- **Logify-Unity Version**: [e.g. v1.0.2]
+- **Render Pipeline**: [e.g. Built-in / URP]
+
+**Occurrence Platform**
+- **Platform**: [e.g. Unity Editor (Windows), Android, iOS]
+- **Device/OS**: [e.g. Mac Studio (Sonoma), iPhone 15 (iOS 17)]
+- **Scripting Backend**: [e.g. Mono / IL2CPP] (Required for device-specific bugs)
 **To Reproduce**
-Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
-3. Scroll down to '....'
-4. See error
+3. See error (or visual glitch)
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+What should have happened.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Actual behavior**
+What actually happened (Please attach Console Logs if any).
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Screenshots/Videos**
+Visual bugs (Editor UI / In-game Stats) are best explained with images.
 
 **Additional context**
-Add any other context about the problem here.
+Any other information (e.g. Project Settings, specific Inspector state).
