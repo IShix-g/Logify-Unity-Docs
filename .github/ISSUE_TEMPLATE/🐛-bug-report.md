@@ -19,6 +19,7 @@ A clear and concise description of what the bug is.
 - **Platform**: [e.g. Unity Editor (Windows), Android, iOS]
 - **Device/OS**: [e.g. Mac Studio (Sonoma), iPhone 15 (iOS 17)]
 - **Scripting Backend**: [e.g. Mono / IL2CPP] (Required for device-specific bugs)
+
 **To Reproduce**
 1. Go to '...'
 2. Click on '....'
