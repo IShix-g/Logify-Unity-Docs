@@ -40,3 +40,33 @@
 [data-theme='dark'] .header-github-link:before {
   filter: invert(100%);
 }
+
+.navbar-buy-button {
+  background-color: #f3ad38;
+  color: #000 !important;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 800;
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-buy-button:hover {
+  background-color: #ffc15e;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #000 !important;
+}
+
+.navbar-buy-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-buy-button::after {
+  display: none !important;
+}

@@ -55,7 +55,10 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
   themeConfig: {
     // Replace with your project's social card
     image: 'img/social-card.jpg',
@@ -75,12 +78,13 @@ const config: Config = {
         },
         {
           href: 'https://assetstore.unity.com/packages/slug/360718',
-          label: 'Store',
+          label: 'BUY NOW',
           position: 'right',
+          className: 'navbar-buy-button',
         },
         {
           href: 'https://github.com/IShix-g/Logify-Unity-Docs/discussions',
-          label: 'Discussions',
+          label: 'Support',
           position: 'right',
         },
         {
