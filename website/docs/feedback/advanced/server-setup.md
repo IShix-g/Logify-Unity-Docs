@@ -48,7 +48,7 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 
 ### 1. サービスの選択とURLの設定
 `Window > Logify-Unity > Settings` を開き、**Feedback Service** に `HTTP Feedback Service` を選択します。
-* **Server URL**: 先ほど控えた URL を入力します。
+* **Server Url**: 先ほど控えた URL を入力します。
 
 <img src={require('./img/setup4.jpg').default} width="550" className="margin-bottom--md" />
 
@@ -56,7 +56,7 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 
 * **Secret Generator**: `Open` をクリックして生成ウィンドウを開き、そのまま ①**Generate** を実行します。
 
-ここで生成された ②**Shared Secret** は、次のサーバー設定で使用するため控えておいてください。
+②**Shared Secret** の値は、次のサーバー設定で使用するため控えておいてください。
 
 <img src={require('./img/setup5.jpg').default} width="550" className="margin-bottom--md" />
 
@@ -171,7 +171,7 @@ URL の末尾に `config.php` で生成された `secret_key` を付与してア
 === Logify Access Report (Generated: 2026-02-18 15:39:06) ===
 Reporter ID                              | IP / Identifier (Full Hash) | Count | Last Request
 ---------------------------------------------------------------------------------------------------
-d115e86e-ca84-4431-8781-06240224d72b     | 124.97.235.251              | 1     | 2026-02-18 15:33:17
+d115e86e-ca84-4431-8781-06240224d72b     | 888.50.222.281              | 1     | 2026-02-18 15:33:17
 
 === Auto Blocked Clients ===
 Reporter ID   | IP    | Active     | Blocked Until       | Last Violation      | Reason
