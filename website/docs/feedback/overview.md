@@ -99,7 +99,7 @@ sidebar_position: 1
 
 ---
 
-## 📋 Discordの受信例:
+## 📋 Discordの受信例
 <img src={require('../feature-guide/img/discord.jpg').default} width="550" />
 
 ---

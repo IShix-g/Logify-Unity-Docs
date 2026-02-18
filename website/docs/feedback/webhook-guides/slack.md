@@ -63,14 +63,14 @@ Discord と異なり、Slack では「アプリの作成」と「チャンネル
 
 ## インストールとトークン取得 {#install-app}
 
-1.  **ワークスペースへインストール**
+1.  **ワークスペースへインストール**  
     左側メニューの **OAuth & Permissions** を開き、**Install to [ワークスペース名]** をクリックします。
     <img src={require('./img/slack6.jpg').default} width="500" className="margin-bottom--md" />
 
     権限のリクエスト画面が表示されたら、「許可する」を選択してください。
     <img src={require('./img/slack7.jpg').default} width="500" className="margin-bottom--md" />
 
-2.  **Bot User OAuth Token のコピー**
+2.  **Bot User OAuth Token のコピー**  
     発行された **Bot User OAuth Token** (`xoxb-` で始まる文字列) をコピーし、控えておきます。これは後ほど Unity 側の設定で使用します。
     <img src={require('./img/slack8.jpg').default} width="500" className="margin-bottom--md" />
 
@@ -80,7 +80,7 @@ Discord と異なり、Slack では「アプリの作成」と「チャンネル
 
 Bot は招待されたチャンネルにのみ投稿できます。
 
-1.  **アプリの追加**
+1.  **アプリの追加**  
     Slack アプリでフィードバックを受信したいチャンネルを開き、右上の詳細アイコンをクリックします。
     <img src={require('./img/slack9.jpg').default} width="500" className="margin-bottom--md" />
 
@@ -90,7 +90,7 @@ Bot は招待されたチャンネルにのみ投稿できます。
     先ほど作成したアプリ（例: `logify-feedback`）を見つけて **追加** します。
     <img src={require('./img/slack11.jpg').default} width="500" className="margin-bottom--md" />
 
-2.  **チャンネル ID の取得**
+2.  **チャンネル ID の取得**  
     同じくチャンネル詳細画面の一番下にある **チャンネル ID**（例: `C12345678`）をコピーして控えておきます。
     <img src={require('./img/slack12.jpg').default} width="500" className="margin-bottom--md" />
 

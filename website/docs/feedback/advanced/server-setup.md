@@ -46,11 +46,14 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 
 ## 🛠️ Unity 側の設定
 
-### 1. サービスの選択
+### 1. サービスの選択とURLの設定
 `Window > Logify-Unity > Settings` を開き、**Feedback Service** に `HTTP Feedback Service` を選択します。
+* **Server URL**: 先ほど控えた URL を入力します。
+
+<img src={require('./img/setup4.jpg').default} width="550" className="margin-bottom--md" />
 
 ### 2. 接続情報の入力
-* **Server URL**: 先ほど控えた URL を入力します。
+
 * **Secret Generator**: `Open` をクリックして生成ウィンドウを開き、そのまま ①**Generate** を実行します。
 
 ここで生成された ②**Shared Secret** は、次のサーバー設定で使用するため控えておいてください。
@@ -87,6 +90,8 @@ C++ プラグインによる保護を有効にするには、Unity の Build Set
 * **[📧 メール連携](./mail.md)**：送信先・送信元アドレスの設定
 
 ### 設定例 (`config.php`)
+
+Discordを有効にする
 
 ```php
 return [

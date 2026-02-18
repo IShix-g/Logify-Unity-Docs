@@ -51,6 +51,6 @@ import TabItem from '@theme/TabItem';
 * **Position:** 画面の四隅（Right Top / Left Bottomなど）から表示位置を選択
 
 #### Performance Thresholds:
-* FPSの数値に応じてテキストの色を動的に変更します（例：30 FPS以下で赤色など）
+* FPSの数値に応じてテキストの色を動的に変更します（例：30 FPS以下で黄色など）
 * 閾値はスライダーで直感的にカスタマイズ可能です
 * **Update Interval:** 更新間隔（秒）を設定します。デフォルトは 0.5 秒です
