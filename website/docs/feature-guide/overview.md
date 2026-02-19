@@ -1,7 +1,10 @@
 ---
 slug: /
 sidebar_position: 1
+title: 🏁 概要
 ---
+
+![logo](./img/header.jpg)
 
 # 🏁 概要
 
