@@ -24,21 +24,54 @@ sidebar_position: 3
 
 ---
 
-## 🔄 認証シーケンス図
+## 🛠️ セキュリティ・通信シーケンス
 
-### 1. トークンの取得
+悪意のあるユーザーによる虚偽のフィードバック送信やデータの改ざんを防ぐため、**二段階の検証プロセス**を採用しています。
 
-クライアントは送信を開始する前に、まずサーバーへアクセス権を要求します。
+```mermaid
+sequenceDiagram
+    participant Client as Unity Client (Logify)
+    participant Auth as Auth Endpoint
+    participant API as Data Endpoint
+    participant DB as SQLite Database
 
-* **Nonce & Timestamp:** リプレイ攻撃（同じパケットを何度も送りつける攻撃）を防ぐため、1回限りの値と有効期限を付与します。
-* **Device Key Registration:** 初回アクセス時、サーバーはデバイスの公開鍵をデータベース（SQLite）に保存します。以降、同じ Reporter ID からは同じ鍵での署名がない限り受理しません。
+    Note over Client: 1. 署名作成 (Shared + Device ID)
+    Client->>Auth: トークン要求 (ReporterID, DevicePubKey, Signature)
+    
+    Note over Auth: 2. 署名検証 & 鍵の信頼性確認
+    Auth->>DB: デバイス鍵の照合 / 新規登録
+    DB-->>Auth: OK
+    
+    Auth-->>Client: Access Token 発行
+    
+    Note over Client: 3. データパッキング & 署名
+    Note over Client: (Payload + Token + Signature)
+    
+    Client->>API: フィードバック送信 (Encrypted Payload)
+    
+    Note over API: 4. トークン有効性 & 改ざん検知
+    API->>DB: トークン有効期限・使用回数チェック
+    DB-->>API: Valid
+    
+    Note over API: 5. 外部連携
+    API->>Discord/Slack: Webhook通知
+    API-->>Client: 200 OK (Success)
 
-### 2. フィードバックの送信
+```
 
-トークン取得後、実際のデータを送信します。
+### 1. トークンの取得（Authentication）
 
-* **Payload Hash:** メッセージ本文、デバイス情報、添付ファイル（スクリーンショット等）のすべてのハッシュを計算します。
-* **X-Logify-Payload-Signature:** デバイス鍵で「どのデータが」「いつ」送られたかを署名します。これにより、途中の経路でのデータ改ざんが不可能になります。
+送信を開始する前に、まずサーバーへ一時的なアクセス権を要求します。
+
+* **Nonce & Timestamp**: リプレイ攻撃（同一パケットの再送）を防ぐため、1回限りの値と有効期限を付与します。
+* **Device Key Persistence**: 初回アクセス時にデバイス固有の公開鍵を登録します。以降、同一の **Reporter ID** からは、ペアとなる秘密鍵による正当な署名がない限りアクセスを拒否します。
+
+### 2. フィードバックの送信（Data Integrity）
+
+取得したトークンを用いて、実際のデータをパッキングして送信します。
+
+* **Payload Hashing**: メッセージ、デバイス情報、添付ファイルのすべてを包含したハッシュ値を生成します。
+* **End-to-End Signature**: 生成したハッシュをデバイス鍵で署名します。これにより、サーバーに届くまでの経路でデータが 1 ビットでも改ざんされた場合、サーバー側で即座に検知・破棄されます。
 
 ---
 

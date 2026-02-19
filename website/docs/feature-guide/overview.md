@@ -29,7 +29,7 @@ Unity EditorのConsoleウィンドウとほぼ同等の体験を実機上で提�
 * **ログ出力:** `Debug.Log` などの標準出力をキャッチ
 * **フィルタリング:** ログレベル（Log/Warning/Error）による絞り込み、スタックトレースの確認が可能です
 
-### ⚙️ [System - Detailed Information](../features/system.md)
+### ⚙️ [System - Detailed](../features/system.md)
 
 動作している端末のハードウェア・ソフトウェア情報を一括表示します。
 

@@ -12,7 +12,7 @@ sidebar_position: 1
 
 ## 🛠️ 全般設定 (General)
 
-アプリ全体での Logify の有効化タイミングを制御します。
+アプリ全体での有効化タイミングを制御します。
 
 | 設定項目 | 説明                                                                                                                              |
 | --- |---------------------------------------------------------------------------------------------------------------------------------|
@@ -49,7 +49,7 @@ Game Windowを表示していると **Trigger Position** をクリックした�
 #### Performance Thresholds:
 * FPSの数値に応じて色（Red/Yellow/Green）を変化させるしきい値を設定します
 
-### System Utilities
+### System Utilities {#system-utilities}
 
 * **Max Log Capacity**: メモリ内に保持するログ（Console Log）の最大行数です
 * **Force Logging In Build**: 開発用ビルド以外でも強制的にログを収集するかどうかを制御します

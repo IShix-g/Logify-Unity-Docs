@@ -5,7 +5,6 @@ sidebar_position: 2
 # 🏷️ Attribute一覧
 
 デバッグメニューを構築するための主要な属性（Attributes）です。
-利用には `using Logify` が必要です。
 
 :::info 名前空間
 ```csharp

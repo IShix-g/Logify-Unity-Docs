@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# ⚙️ System - Detailed Information
+# ⚙️ System - Detailed
 
 動作している端末のハードウェアおよびソフトウェア情報を一覧表示します。
 不具合が発生した際、特定のOSバージョンやCPUアーキテクチャに依存する問題かどうかを即座に判断できます。

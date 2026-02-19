@@ -40,6 +40,8 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 また、セキュリティのため完了後はサーバー上の `setup.php` を手動で削除することを推奨します。
 :::
 
+#### 設定完了画面
+
 <img src={require('./img/setup3.jpg').default} width="550" className="margin-bottom--md" />
 
 ---
@@ -55,8 +57,7 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 ### 2. 接続情報の入力
 
 * **Secret Generator**: `Open` をクリックして生成ウィンドウを開き、そのまま ①**Generate** を実行します。
-
-②**Shared Secret** の値は、次のサーバー設定で使用するため控えておいてください。
+* ②**Shared Secret** の値は、次のサーバー設定で使用するため控えておいてください。
 
 <img src={require('./img/setup5.jpg').default} width="550" className="margin-bottom--md" />
 

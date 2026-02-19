@@ -27,7 +27,6 @@ void OnDestroy() => Logi.Unregister(this);
 void Test() => Debug.Log("Test");
 
 // ...
-
 ```
 
 #### 💡 ライフサイクル管理の自動化
@@ -42,7 +41,6 @@ void Awake()
 
 // 自動で破棄時に登録解除されるので必要なし
 // void OnDestroy() => Logi.Unregister(this);
-
 ```
 
 ---
@@ -72,7 +70,6 @@ public sealed class MyClass : ILogiCommandGroup, IDisposable
         // マネージドリソースの解放など
     }
 }
-
 ```
 
 #### 🛠️ 登録側のコード
@@ -83,16 +80,14 @@ public sealed class MyClass : ILogiCommandGroup, IDisposable
 // クラス内の定義に基づいて自動でタブが生成される
 var myClass = new MyClass();
 Logi.Register(myClass).AddTo(this); 
-
 ```
 
 ---
 
-## ⚠️ Staticクラスの取り扱い
-
-Logify-Unityは `static` クラスの登録にも対応していますが、**推奨されません。**
-
-デバッグUIの多くはシーン内の特定オブジェクトや状態と紐付いています。`static` クラスで登録した場合、シーン破棄後もUIが残り続けてしまい、実行時に `MissingReferenceException` を引き起こしたり、無効な操作を許容したりする原因となるためです。原則として、`MonoBehaviour` のライフサイクルに合わせた登録を推奨します。
+## ⚠️ Staticクラスの取り扱い {#static-warning}
+`static` クラス（Type）の登録は、**原則として推奨されません。**
+* **理由**: UIがシーン内のオブジェクトに依存している場合、シーン破棄後もUIが残り続け、操作時に `MissingReferenceException` を引き起こす原因となります。
+* **推奨**: `MonoBehaviour` の `OnEnable` / `OnDisable` 等、ライフサイクルに合わせた明示的な登録・解除を行ってください。
 
 ---
 
