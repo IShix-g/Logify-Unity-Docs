@@ -15,6 +15,6 @@ This plugin has been tested and verified on iOS / Android devices.
 
 * **Platform Compatibility**
   While it should theoretically work in any environment where the `Resources` API is available, operation on platforms other than those listed above is not officially supported.
-* **Resource Management Safety**
-  Although the plugin uses the `Resources` folder internally, **it does not generate files that are included in builds.** You can safely integrate it without worrying about unnecessary assets being included in release builds (store distribution binaries).
+* **Smart Stripping**
+  Heavy debug resources—such as prefabs and UI assets—are automatically stripped from release builds using our proprietary mechanism. This ensures your final application remains lean and professional.
 :::
