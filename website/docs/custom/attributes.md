@@ -2,52 +2,52 @@
 sidebar_position: 2
 ---
 
-# 🏷️ Attribute一覧
+# 🏷️ Attribute List
 
-デバッグメニューを構築するための主要な属性（Attributes）です。
+Main attributes for building debug menus.
 
-:::info 名前空間
+:::info Namespace
 ```csharp
 using Logify;
 ```
 :::
 
 :::warning
-⚠️ [Managed Stripping に関する注意点](#stripping-caution)
+⚠️ [Managed Stripping Considerations](#stripping-caution)
 :::
 
 ## 🔘 [LogiButton]
 
-メソッドを実行するための基本属性です。引数の有無により自動的にUIが切り替わります。
+Basic attribute for executing methods. UI automatically switches based on presence of arguments.
 
-### 1. ボタンのみ（引数なし）
+### 1. Button Only (No Arguments)
 
 <img src={require('./img/button.jpg').default} width="500" className="margin-bottom--md" />
 
-| 引数 | 説明 |
+| Argument | Description |
 | --- | --- |
-| **第1引数** | ラベル名 |
-| **第2引数** | ボタン内のテキスト |
+| **1st argument** | Label name |
+| **2nd argument** | Text within button |
 
 ```csharp
 [LogiButton("Test Button", "Execute")]
-void Test() { /* 処理 */ }
+void Test() { /* process */ }
 
 ```
 
-### 2. インプットあり（引数あり）
+### 2. With Input (With Arguments)
 
-引数を持つメソッドに付与すると、値を入力して実行できるUIが生成されます。  
-`string`, `int`, `float`, `bool`, `Enum` に対応しています。
+When applied to methods with arguments, UI is generated to input values and execute.
+Supports `string`, `int`, `float`, `bool`, `Enum`.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-| 引数 | 説明 |
+| Argument | Description |
 | --- | --- |
-| **第1引数** | ラベル名 |
-| **第2引数** | ボタン内のテキスト |
-| **第3引数** | フィールドの初期値 |
+| **1st argument** | Label name |
+| **2nd argument** | Text within button |
+| **3rd argument** | Field initial value |
 
 <Tabs className="margin-bottom--md">
 <TabItem value="num" label="Numeric / String" default>
@@ -77,13 +77,13 @@ void Test(TestEnum type) { }
 
 ## 📥 [LogiInput]
 
-値を直接入力・変更するための属性です。  
-`string`, `int`, `float`, `bool`, `Enum` に対応しています。
+Attribute for directly inputting and modifying values.
+Supports `string`, `int`, `float`, `bool`, `Enum`.
 
-| 引数 | 説明 |
+| Argument | Description |
 | --- | --- |
-| **第1引数** | ラベル名 |
-| **第2引数** | フィールドの初期値 |
+| **1st argument** | Label name |
+| **2nd argument** | Field initial value |
 
 <Tabs className="margin-bottom--md">
 <TabItem value="num" label="Numeric / String" default>
@@ -113,19 +113,19 @@ TestEnum TestInput(TestEnum type) { }
 
 ## 🎚️ [LogiRange] / [LogiRangeButton]
 
-数値を範囲指定（スライダー）で調整します。  
-`int`, `float` に対応しています。
+Adjust numeric values with range specification (slider).
+Supports `int`, `float`.
 
 <Tabs className="margin-bottom--md">
 <TabItem value="range" label="Standard Range" default>
 <img src={require('./img/range2.jpg').default} width="500" />
 
-| 引数       | 説明        |
-|----------|-----------|
-| **第1引数** | ラベル名      |
-| **第2引数** | 最小値 |
-| **第3引数** | 最大値       |
-| **第4引数** | フィールドの初期値 |
+| Argument | Description |
+| --- | --- |
+| **1st argument** | Label name |
+| **2nd argument** | Minimum value |
+| **3rd argument** | Maximum value |
+| **4th argument** | Field initial value |
 
 ```csharp
 [LogiRange("Test Range integer", 0, 100, 10)]
@@ -135,13 +135,13 @@ void TestRangeButton(int integer) { }
 <TabItem value="range-btn" label="Range with Button">
 <img src={require('./img/range.jpg').default} width="500" />
 
-| 引数       | 説明       |
-|----------|----------|
-| **第1引数** | ラベル名     |
-| **第2引数** | ボタン内のテキスト |
-| **第3引数** | 最小値      |
-| **第4引数** | 最大値      |
-| **第5引数** | フィールドの初期値 |
+| Argument | Description |
+| --- | --- |
+| **1st argument** | Label name |
+| **2nd argument** | Text within button |
+| **3rd argument** | Minimum value |
+| **4th argument** | Maximum value |
+| **5th argument** | Field initial value |
 
 ```csharp
 [LogiRangeButton("Test Range integer", "Run", 0, 100, 10)]
@@ -154,8 +154,8 @@ void TestRangeButton(int integer) { }
 
 ## 🖼️ [LogiPreview]
 
-画像を確認できます。  
-`Sprite`、 `Texture2D` に対応します。
+Allows viewing images.
+Supports `Sprite`, `Texture2D`.
 
 <img src={require('./img/preview.jpg').default} width="400" className="margin-bottom--md" />
 
@@ -168,11 +168,11 @@ Sprite GetPlayerIcon() => _playerIcon;
 
 ## 📝 Information Display
 
-デバッグ情報を「表示」することに特化した属性です。
+Attributes specialized for "displaying" debug information.
 
 ### [LogiLabel]
 
-シンプルなテキスト表示。
+Simple text display.
 
 <img src={require('./img/label.jpg').default} width="500" />
 
@@ -183,7 +183,7 @@ string GetStatus() => "Test Label";
 
 ### [LogiStatus]
 
-ラベル付きのステータス表示。コピーボタンの表示オプションを選択可能です。
+Status display with label. Can select copy button display option.
 <img src={require('./img/status.jpg').default} width="500" />
 
 ```csharp
@@ -193,7 +193,7 @@ string GetBuildSign() => $"Integer set to: {_integer}";
 
 ### [LogiTextArea]
 
-長文の確認や入力に適しています。
+Suitable for viewing or inputting long text.
 <img src={require('./img/textArea.jpg').default} width="500" />
 
 ```csharp
@@ -203,22 +203,22 @@ void UpdateLog(string text) { }
 
 ---
 
-### ⚠️ Managed Stripping に関する注意点 {#stripping-caution}
+### ⚠️ Managed Stripping Considerations {#stripping-caution}
 
 <img src={require('./img/managed-stripping.jpg').default} width="500" />
 
-Unityのビルド設定で **Managed Stripping Level** が **Medium** または **High** に設定されている場合、コード上で直接参照されていないメソッドやフィールドは、Unityによってビルドから削除（ストリップ）される可能性があります。
+When Unity's build setting **Managed Stripping Level** is set to **Medium** or **High**, methods and fields not directly referenced in code may be removed (stripped) by Unity during builds.
 
-`Logify-Unity` はリフレクションを使用して Attribute を検知するため、ストリッピングの対象になるとデバッグメニューに表示されません。この問題が発生した場合、Attribute を付与したメンバに **`[Preserve]`** 属性を併記してください。
+Since `Logify-Unity` uses reflection to detect Attributes, they won't appear in the debug menu if stripped. If this occurs, add the **`[Preserve]`** attribute alongside attributes on members.
 
 ```csharp
-using UnityEngine.Scripting; // Preserve属性に必要
+using UnityEngine.Scripting; // Required for Preserve attribute
 using Logify;
 
 public class PlayerDebug : MonoBehaviour
 {
     [LogiButton("Level Up")]
-    [Preserve] // ストリッピング対策
+    [Preserve] // Stripping countermeasure
     void LevelUp()
     {
         // ...
@@ -226,20 +226,20 @@ public class PlayerDebug : MonoBehaviour
 }
 ```
 
-:::tip 一括対策
-個別に `[Preserve]` を付けるのが手間な場合は、`link.xml` ファイルを作成し、特定のクラスや名前空間をまとめてストリッピングの対象外に設定することをお勧めします。
+:::tip Batch Countermeasure
+If applying `[Preserve]` individually is cumbersome, we recommend creating a `link.xml` file to collectively exclude specific classes or namespaces from stripping.
 
 <details>
-  <summary><b>link.xmlの設定例を表示</b></summary>
+  <summary><b>Show link.xml configuration example</b></summary>
 
 ```xml
 <linker>
   <assembly fullname="Logify" preserve="all"/>
 
   <assembly fullname="YourGame.Scripts">
-    
+
     <namespace fullname="YourGame.Debug" preserve="all"/>
-    
+
     <type fullname="YourGame.Managers.PlayerManager" preserve="nothing">
       <method signature="System.Void LevelUp()"/>
       <method signature="System.Void AddItem(System.Int32,System.String)"/>

@@ -2,70 +2,70 @@
 sidebar_position: 1
 ---
 
-# 🤖 Discord Webhook 連携
+# 🤖 Discord Webhook Integration
 
-Discordの[Webhook 機能](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)を利用して直接フィードバックを受信するための設定手順です。
-トークンを安全に扱うため、内部で C++ ネイティブプラグインを自動生成します。
-
----
-
-## Webhook URL の取得 {#get-webhook-url}
-
-まず、フィードバックを受信したい Discord サーバーで Webhook URL を発行します。
-
-1.  **チャンネル設定を開く**  
-    フィードバックを受信したいテキストチャンネルの **Edit Channel (⚙️)** をクリックします。
-    <img src={require('./img/discord1.jpg').default} width="400" className="margin-bottom--md" />
-
-2.  **Webhook を作成**  
-    **Integrations** タブを選択し、**Create Webhook** ボタンをクリックします。
-    <img src={require('./img/discord2.jpg').default} width="550" className="margin-bottom--md" />
-
-3.  **URL をコピー**  
-    管理しやすい名称（例: "Logify Feedback"）を設定し、**Copy Webhook URL** をクリックして保存しておきます。
-    <img src={require('./img/discord3.jpg').default} width="550" />
+Setup procedure for receiving feedback directly using Discord's [Webhook feature](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
+Automatically generates a C++ native plugin internally to securely handle tokens.
 
 ---
 
-## Unity 側の設定 {#unity-setup}
+## Getting Webhook URL {#get-webhook-url}
 
-取得した Webhook URL を Logify-Unity に組み込みます。
+First, issue a Webhook URL on the Discord server where you want to receive feedback.
 
-#### 1. 設定を開く
-メニューバーの `Window > Logify-Unity > Settings` から設定ウィンドウを開きます。
+1. **Open Channel Settings**
+   Click **Edit Channel (⚙️)** of the text channel where you want to receive feedback.
+   <img src={require('./img/discord1.jpg').default} width="400" className="margin-bottom--md" />
 
-#### 2. サービスの選択
-**Feedback Integration** セクションの **Feedback Service** ドロップダウンから、`Discord Feedback Service` を選択します。その後、**Secret Generator** の **Open** ボタンをクリックして生成ツールを開きます。
+2. **Create Webhook**
+   Select the **Integrations** tab and click the **Create Webhook** button.
+   <img src={require('./img/discord2.jpg').default} width="550" className="margin-bottom--md" />
+
+3. **Copy URL**
+   Set a manageable name (e.g., "Logify Feedback") and click **Copy Webhook URL** to save it.
+   <img src={require('./img/discord3.jpg').default} width="550" />
+
+---
+
+## Unity Setup {#unity-setup}
+
+Integrate the obtained Webhook URL into Logify-Unity.
+
+#### 1. Open Settings
+Open the settings window from the menu bar `Window > Logify-Unity > Settings`.
+
+#### 2. Select Service
+In the **Feedback Integration** section, select `Discord Feedback Service` from the **Feedback Service** dropdown. Then click the **Open** button of **Secret Generator** to open the generation tool.
 
 <img src={require('./img/integration-discord1.jpg').default} width="500" className="margin-bottom--md" />
 
-#### 3. セキュアな生成
-**Webhook URL** フィールドに先ほど取得した URL をペーストし、**Generate** ボタンをクリックします。
+#### 3. Secure Generation
+Paste the URL you obtained earlier into the **Webhook URL** field and click the **Generate** button.
 
 <img src={require('./img/integration-discord2.jpg').default} width="500" className="margin-bottom--md" />
 
-:::info 安全性について
-`Generate` を実行すると、難読化された C++ コードと C# Bridge コードが自動生成されます。これにより、ビルド後のバイナリから Webhook URL を抽出されるリスクを大幅に軽減します。
+:::info About Security
+Executing `Generate` automatically generates obfuscated C++ code and C# Bridge code. This significantly reduces the risk of extracting the Webhook URL from the binary after build.
 :::
 
-:::caution IL2CPP ビルドの推奨
-C++ プラグインによる保護を有効にするには、Unity の Build Settings で Scripting Backend を [IL2CPP] に設定してビルドしてください。
+:::caution IL2CPP Build Recommended
+To enable protection via C++ plugin, set Scripting Backend to [IL2CPP] in Unity's Build Settings before building.
 
-* **iOS / Android (IL2CPP):** 生成された Native C++ Plugin が使用され、強力に保護されます
-* **Editor / Android (Mono):** 互換性のために自動生成された C# フォールバックコードが使用されます
+* **iOS / Android (IL2CPP):** Generated Native C++ Plugin is used, providing strong protection
+* **Editor / Android (Mono):** Automatically generated C# fallback code is used for compatibility
 :::
 
 ---
 
-## 🧪 動作確認 {#testing}
+## 🧪 Testing {#testing}
 
-設定が完了したら、実際にフィードバックが届くかテストを行います。
+Once setup is complete, test whether feedback is actually received.
 
-1.  **[動作確認の手順](../../getting-started/quick-start.md#testing)** に沿ってアプリを実行します。
-2.  ゲーム内の **Custom > Feedback** タブを開き、任意のメッセージを入力して送信します。
-3.  指定した Discord チャンネルに、デバイス情報と共にメッセージが届いていることを確認してください。
+1. Run the app following **[Testing Procedure](../../getting-started/quick-start.md#testing)**.
+2. Open the in-game **Custom > Feedback** tab, enter any message, and submit.
+3. Verify that the message with device information arrives in the designated Discord channel.
 
 <img src={require('../../feature-guide/img/feedback.jpg').default} width="550" className="margin-bottom--md" />
 
-### 📬 受信例
+### 📬 Reception Example
 <img src={require('../../feature-guide/img/discord.jpg').default} width="550" />

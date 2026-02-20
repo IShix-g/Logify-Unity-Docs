@@ -2,40 +2,40 @@
 sidebar_position: 1
 ---
 
-# 🏁 概要
+# 🏁 Overview
 
-ソースコードに **Attribute（属性）** を追加するだけで、独自のデバッグ操作を `Custom` タブに即座に生成します。
-UI作成の工数をゼロにし、ロジックの検証に集中できます。
+Simply add **Attributes** to source code to instantly generate custom debug operations in the `Custom` tab.
+Eliminates UI creation overhead, allowing you to focus on logic verification.
 
 <img src={require('../feature-guide/img/custom.jpg').default} width="500" />
 
-### ⚡ 1行でボタンを追加
+### ⚡ Add a Button in One Line
 
-メソッドに `[LogiButton]` を付与するだけで、ダイアログ上に実行ボタンが表示されます。
+Simply apply `[LogiButton]` to a method to display an execution button in the dialog.
 
 ```csharp
 [LogiButton("Test Button", "Execute")]
 void Test() => Debug.Log("Test");
 ```
 
-### 🎚️ 値のリアルタイム監視・変更
+### 🎚️ Real-Time Value Monitoring & Modification
 
-実行時のステータスを可視化する事もできます。
+You can also visualize runtime status.
 
 ```csharp
 [LogiStatus("Test Status", false)]
 string TestStatus() => $"Integer set to: {_integer}";
 
-// 画像の表示
+// Display images
 [LogiPreview("Test Sprite")]
 Sprite TestSprite() => _sprite;
 
 ```
 
-### 🌱 初期化
+### 🌱 Initialization
 
-`Awake`で登録する事で利用可能になります。  
-`OnDestroy`で登録解除します。
+Register in `Awake` to make it available.
+Unregister in `OnDestroy`.
 
 ```csharp
 void Awake() => Logi.Register(this, "Tests (Instance)", 1);
@@ -46,11 +46,11 @@ void OnDestroy() => Logi.Unregister(this);
 void Test() => Debug.Log("Test");
 ```
 
-### ⚙️ 特徴
+### ⚙️ Features
 
-* **ボイラープレート不要:** 手動のUI構築は一切不要です
-* **タブ管理:** 登録時に渡される名称でタブ分けします
+* **No Boilerplate Required:** No manual UI construction needed
+* **Tab Management:** Organizes into tabs based on names provided during registration
 
 :::note
-Managed Stripping Level が Medium 以上の場合は、リフレクション保護の設定が必要です。詳細は **[Managed Stripping に関する注意点](attributes.md#stripping-caution)** を参照してください。
+When Managed Stripping Level is Medium or higher, reflection protection settings are required. See **[Managed Stripping Considerations](attributes.md#stripping-caution)** for details.
 :::

@@ -4,37 +4,37 @@ sidebar_position: 2
 
 # 💻 In-Game Console
 
-実機上で Unity Editor の Console ウィンドウとほぼ同等のデバッグ体験を提供します。
-`Debug.Log` や例外（Exception）を自動的にキャッチし、不具合調査に必要な情報を即座に表示します。
+Provides a debugging experience on devices nearly equivalent to Unity Editor's Console window.
+Automatically catches `Debug.Log` and exceptions, instantly displaying information needed for troubleshooting.
 
 <img src={require('../feature-guide/img/console.jpg').default} width="500" />
 
-### 🛠️ 基本機能
+### 🛠️ Basic Features
 
-EditorのConsoleに慣れた開発者なら、説明不要で直感的に操作可能です。
+Developers familiar with the Editor Console can operate intuitively without explanation.
 
-* **Clear:** 表示されているログをすべて消去します
-* **Collapse:** 重複するログを1つにまとめ、視認性を高めます
+* **Clear:** Removes all displayed logs
+* **Collapse:** Consolidates duplicate logs into one for better visibility
 
 #### Filter (Info/Warn/Error):
-* 各アイコンの横に現在のログ数が表示されます
-* **カウント部分をタップ**することで、各レベルの表示/非表示を切り替えられます
-* **Detail View:** ログ項目をタップすると、下部にスタックトレースの詳細が表示されます
+* Current log count is displayed next to each icon
+* **Tap the count** to toggle display for each level
+* **Detail View:** Tap a log entry to display detailed stack trace at the bottom
 
-### ⚠️ Editor Console との違い
+### ⚠️ Differences from Editor Console
 
-以下の機能は利用できません。
+The following features are not available:
 
-* キーワードによる検索機能（Search）
-* `Open Player Log` 等、外部ファイルへのアクセス機能
+* Keyword search functionality (Search)
+* External file access features such as `Open Player Log`
 
-### ⚙️ ログ最大数の設定
+### ⚙️ Maximum Log Count Settings
 
-メモリ消費を抑えるため、保持するログ数には上限があります。
+To limit memory consumption, there is a cap on the number of logs retained.
 
-* **デフォルト:** 1000件
-* **変更方法:** Unityメニューの `Window > Logify-Unity > Settings` から変更可能です。
+* **Default:** 1000 entries
+* **How to change:** Adjustable from Unity menu `Window > Logify-Unity > Settings`.
 
 :::tip
-ログ最大数を極端に増やすと、実機での UI 描画パフォーマンス（GC Alloc 等）に影響が出る場合があります。通常はデフォルトの1000件で運用し、大量のログを追跡する必要がある場合は、後述する **Feedback 機能** を使ってログファイルを外部に送信することを推奨します。
+Significantly increasing the maximum log count may impact device UI rendering performance (GC Alloc, etc.). We recommend operating with the default 1000 entries. When you need to track large volumes of logs, we recommend using the **Feedback feature** described later to send log files externally.
 :::

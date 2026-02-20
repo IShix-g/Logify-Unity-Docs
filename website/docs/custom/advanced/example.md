@@ -2,31 +2,31 @@
 sidebar_position: 3
 ---
 
-# 🚀 実装例：フォーム
+# 🚀 Implementation Example: Form
 
-機能を組み合わせることで、実機テスト中にスクリーンショット付きのバグレポートを送信するような、高度なデバッグ機能を実装できます。
+By combining features, you can implement advanced debugging functionality such as sending bug reports with screenshots during device testing.
 
 <img src={require('../../feature-guide/img/feedback.jpg').default} width="550" className="margin-bottom--md" />
 
-### 🛠️ 実装のポイント
+### 🛠️ Implementation Points
 
-このサンプルでは、以下のテクニックを組み合わせています：
+This sample combines the following techniques:
 
-1. **コンテキスト駆動 (`LogiViewContext`):** 入力値の保持とクリア
-2. **プレビュー機能 (`LogiPreview`):** 撮影したスクリーンショットの即時表示
-3. **非同期処理:** 通信中の二重送信防止とトースト通知
-4. **ライフサイクル管理:** `IDisposable` によるテクスチャメモリの適切な解放
+1. **Context-Driven (`LogiViewContext`):** Retaining and clearing input values
+2. **Preview Feature (`LogiPreview`):** Immediate display of captured screenshots
+3. **Asynchronous Processing:** Preventing duplicate submissions during communication and toast notifications
+4. **Lifecycle Management:** Proper texture memory release via `IDisposable`
 
-### 📄 フィードバックフォームのサンプルコード (Simplified)
+### 📄 Feedback Form Sample Code (Simplified)
 
 ```csharp
 public sealed class FeedbackForm : ILogiCommandGroup, IDisposable
 {
     public string GroupName => "Feedback";
     public int Priority => 9999;
-    
+
     public enum ReportType { Bug, Feedback }
-    
+
     ReportType _reportType;
     string _userMessage;
     Sprite _captureSprite;
@@ -51,54 +51,54 @@ public sealed class FeedbackForm : ILogiCommandGroup, IDisposable
     [LogiButton(title:"Screenshot", buttonName:"Capture")]
     void StartCapture()
     {
-        // スクリーンショット撮影ロジック (Coroutine等) を実行し
-        // _captureSprite に結果を格納する
+        // Execute screenshot capture logic (Coroutine, etc.) and
+        // store result in _captureSprite
     }
-    
+
     [LogiPreview("Preview")]
     Sprite ScreenshotPreview() => _captureSprite;
 
     [LogiButton("Send Feedback", "Send")]
     async void Send()
     {
-        // 1. 二重送信防止とバリデーション
+        // 1. Prevent duplicate submission and validation
         if (_isSending) return;
-    
+
         if (string.IsNullOrEmpty(_userMessage))
         {
             Logi.OpenToast("Message is required.", LogifyToastType.Error);
             return;
         }
-    
+
         try
         {
             _isSending = true;
             Logi.OpenToast("Submitting feedback...", LogifyToastType.Information);
-    
-            // 2. 非同期送信処理の実行
-            // スクリーンショット（byte[]）やログ（LogEntries）をコンテキストに含めて送信
+
+            // 2. Execute asynchronous submission
+            // Send including screenshot (byte[]) and logs (LogEntries) in context
             var result = await _dispatcher.SendFeedbackAsync(new FeedbackContext(
                 message: _userMessage,
                 isBug: _reportType == ReportType.Bug,
                 screenshot: _captureSprite?.texture?.EncodeToJPG(75)
             ));
-    
-            // 3. 結果に応じたフィードバック
+
+            // 3. Feedback based on result
             if (result.IsSuccess)
             {
                 Logi.OpenToast("Submission completed successfully!", LogifyToastType.Information);
-                ClearForm(); // 成功時のみフォームをリセット
+                ClearForm(); // Reset form only on success
             }
             else
             {
-                // サーバー側や通信エラーによる失敗
+                // Failure due to server-side or communication error
                 Logi.OpenToast($"Submission failed: {result.ErrorMessage}", LogifyToastType.Error);
                 Debug.LogError($"[Logify] Feedback failed: {result.ErrorMessage}");
             }
         }
         catch (Exception e)
         {
-            // 予期せぬ例外（ネットワーク遮断など）の捕捉
+            // Catch unexpected exceptions (network interruption, etc.)
             Logi.OpenToast("An unexpected error occurred.", LogifyToastType.Error);
             Debug.LogException(e);
         }
@@ -111,12 +111,12 @@ public sealed class FeedbackForm : ILogiCommandGroup, IDisposable
     void ClearForm()
     {
         _userMessage = string.Empty;
-        ReleaseSprite(); // テクスチャの破棄
+        ReleaseSprite(); // Dispose texture
     }
 
     public void Dispose() => ReleaseSprite();
-    
-    void ReleaseSprite() { /* Object.Destroy 等の処理 */ }
+
+    void ReleaseSprite() { /* Object.Destroy, etc. */ }
 }
 
 ```

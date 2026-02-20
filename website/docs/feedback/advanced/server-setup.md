@@ -2,117 +2,117 @@
 sidebar_position: 1
 ---
 
-# ⚙️ PHP サーバーセットアップと運用
+# ⚙️ PHP Server Setup and Operations
 
-不特定多数にアプリを配信する場合や、より高いセキュリティ（認証・流量制限）、およびメール連携を求める場合にこの構成を推奨します。
+This configuration is recommended when distributing apps to unspecified users or when requiring higher security (authentication/rate limiting) and email integration.
 
-### 📋 システム要件
-* **PHP 7.4 以上**
-* **HTTPS 環境必須**（SSL通信が確立されていること）
-* **SQLite3 サポート**（標準的なレンタルサーバーであれば多くの場合有効です）
+### 📋 System Requirements
+* **PHP 7.4 or higher**
+* **HTTPS environment required** (SSL communication must be established)
+* **SQLite3 support** (most standard rental servers have this enabled)
 
 ---
 
-## 🚀 サーバーのデプロイ
+## 🚀 Server Deployment
 
-### 1. スクリプトの書き出し
-Unity エディタのメニューから `Window > Logify-Unity > Export Server Script` を選択し、PHP ファイル一式を任意の場所に出力します。
+### 1. Export Scripts
+Select `Window > Logify-Unity > Export Server Script` from Unity Editor menu and output the PHP file set to any location.
 
 <img src={require('./img/setup1.jpg').default} width="550" className="margin-bottom--md" />
 
-### 2. サーバーへのアップロード
-出力されたフォルダ（例: `logify-api`）をそのままサーバーへアップロードします。
+### 2. Upload to Server
+Upload the output folder (e.g., `logify-api`) as-is to the server.
 
 <img src={require('./img/setup2.jpg').default} width="550" className="margin-bottom--md" />
 
-### 3. セットアップの実行
-ブラウザで `setup.php` にアクセスします。
-（例: `https://yourdomain.com/logify-api/setup.php`）
+### 3. Run Setup
+Access `setup.php` in browser.
+(e.g., `https://yourdomain.com/logify-api/setup.php`)
 
-このスクリプトは以下の処理を自動で行います。
-* データの保存ディレクトリ（`data/`）の作成
-* 適切なパーミッション（`chmod`）の設定
-* セキュリティ保護用の `.htaccess` 生成
-* 初期設定ファイル（`config.php`）の生成
+This script automatically performs the following:
+* Creates data storage directory (`data/`)
+* Sets appropriate permissions (`chmod`)
+* Generates `.htaccess` for security protection
+* Generates initial configuration file (`config.php`)
 
-:::info セットアップ完了後
-画面に表示される **Server URL** を必ず控えてください。Unity 側の設定で使用します。
-また、セキュリティのため完了後はサーバー上の `setup.php` を手動で削除することを推奨します。
+:::info After Setup Completion
+Be sure to save the **Server URL** displayed on screen. You'll use it in Unity settings.
+For security, we recommend manually deleting `setup.php` from the server after completion.
 :::
 
-#### 設定完了画面
+#### Setup Complete Screen
 
 <img src={require('./img/setup3.jpg').default} width="550" className="margin-bottom--md" />
 
 ---
 
-## 🛠️ Unity 側の設定
+## 🛠️ Unity Setup
 
-### 1. サービスの選択とURLの設定
-`Window > Logify-Unity > Settings` を開き、**Feedback Service** に `HTTP Feedback Service` を選択します。
-* **Server Url**: 先ほど控えた URL を入力します。
+### 1. Select Service and Set URL
+Open `Window > Logify-Unity > Settings` and select `HTTP Feedback Service` for **Feedback Service**.
+* **Server Url**: Enter the URL you saved earlier.
 
 <img src={require('./img/setup4.jpg').default} width="550" className="margin-bottom--md" />
 
-### 2. 接続情報の入力
+### 2. Enter Connection Information
 
-* **Secret Generator**: `Open` をクリックして生成ウィンドウを開き、そのまま ①**Generate** を実行します。
-* ②**Shared Secret** の値は、次のサーバー設定で使用するため控えておいてください。
+* **Secret Generator**: Click `Open` to open the generation window, then execute ①**Generate**.
+* ②Save the **Shared Secret** value as you'll need it for the next server configuration.
 
 <img src={require('./img/setup5.jpg').default} width="550" className="margin-bottom--md" />
 
-:::info 安全性について
-`Generate` を実行すると、難読化された C++ コードと C# Bridge コードが自動生成されます。これにより、ビルド後のバイナリから Webhook URL を抽出されるリスクを大幅に軽減します。
+:::info About Security
+Executing `Generate` automatically generates obfuscated C++ code and C# Bridge code. This significantly reduces the risk of extracting the Webhook URL from the binary after build.
 :::
 
-:::caution IL2CPP ビルドの推奨
-C++ プラグインによる保護を有効にするには、Unity の Build Settings で Scripting Backend を [IL2CPP] に設定してビルドしてください。
+:::caution IL2CPP Build Recommended
+To enable protection via C++ plugin, set Scripting Backend to [IL2CPP] in Unity's Build Settings before building.
 
-* **iOS / Android (IL2CPP):** 生成された Native C++ Plugin が使用され、強力に保護されます
-* **Editor / Android (Mono):** 互換性のために自動生成された C# フォールバックコードが使用されます
+* **iOS / Android (IL2CPP):** Generated Native C++ Plugin is used, providing strong protection
+* **Editor / Android (Mono):** Automatically generated C# fallback code is used for compatibility
 :::
 
 ---
 
-## ⚙️ サーバー構成の詳細設定 {#detailed-config}
+## ⚙️ Detailed Server Configuration {#detailed-config}
 
-セットアップ完了直後の `config.php` は、安全のためすべての通知機能が `false`（無効）になっています。**以下の手順で設定を完了させないと、動作確認テストを行っても通知が届きません。**
+Immediately after setup completion, `config.php` has all notification features set to `false` (disabled) for safety. **Testing will not receive notifications unless you complete the following steps.**
 
-### 1. Shared Secret の紐付け
+### 1. Link Shared Secret
 
-サーバー上の `config.php` を開き、Unity 側の Secret Generator で生成した **Shared Secret** を入力します。これが一致しないリクエストはサーバーで拒絶されます。
+Open `config.php` on the server and enter the **Shared Secret** generated on Unity side. Requests that don't match this will be rejected by the server.
 
-### 2. 利用するサービスの有効化とトークン設定
+### 2. Enable Services and Set Tokens
 
-利用したいサービスの `enabled` を `true` に書き換え、必要な情報を入力してください。設定情報は以下の各ガイドを参照して取得してください。
+Change the `enabled` of services you want to use to `true` and enter necessary information. Refer to each guide below to obtain configuration information.
 
-* **[🤖 Discord 連携](../webhook-guides/discord.md)**：Webhook URL の取得方法
-* **[💬 Slack 連携](../webhook-guides/slack.md)**：OAuth トークンとチャンネル ID の取得方法
-* **[📧 メール連携](./mail.md)**：送信先・送信元アドレスの設定
+* **[🤖 Discord Integration](../webhook-guides/discord.md)**: How to get Webhook URL
+* **[💬 Slack Integration](../webhook-guides/slack.md)**: How to get OAuth token and channel ID
+* **[📧 Email Integration](./mail.md)**: Setting recipient/sender addresses
 
-### 設定例 (`config.php`)
+### Configuration Example (`config.php`)
 
-Discordを有効にする
+Enable Discord
 
 ```php
 return [
-    //1. [必須] Unity側で生成した Shared Secret を入力
+    //1. [Required] Enter Shared Secret generated on Unity side
     'shared_secret' => 't8Hz4KNqlmI7gXjj8SFvKsu7IwYpBLImrijN_CKieak',
 
     'services' => [
         'discord' => [
-            'enabled'     => true, // true に変更することで有効化
-            'webhook_url' => 'https://discord.com/api/webhooks/...' // ガイドを参照して入力
+            'enabled'     => true, // Enable by changing to true
+            'webhook_url' => 'https://discord.com/api/webhooks/...' // Enter per guide
         ],
         'slack' => [
-            'enabled' => false, // 利用する場合は true に変更
+            'enabled' => false, // Change to true to use
             'token'   => '',    // xoxb-...
             'channel' => ''     // C...
         ],
         'email' => [
-            'enabled' => false, // 利用する場合は true に変更
-            'to'      => '', 
-            'from'    => '', 
+            'enabled' => false, // Change to true to use
+            'to'      => '',
+            'from'    => '',
         ],
     ],
     // ...
@@ -120,53 +120,53 @@ return [
 
 ```
 
-### 設定ファイルの確認
+### Checking Configuration File
 
-`setup.php` の実行が正常に完了すると、ディレクトリ内に `config.php` が自動生成されます。
+When `setup.php` executes successfully, `config.php` is automatically generated in the directory.
 
-:::tip ファイルが表示されない場合
-FTPクライアント（FileZilla等）をお使いの場合、キャッシュにより新しく生成されたファイルが一覧に反映されないことがあります。**「最新の情報に更新（Refresh）」** を実行して確認してください。
+:::tip If File Not Displayed
+When using FTP clients (FileZilla, etc.), newly generated files may not appear in the list due to caching. Execute **"Refresh"** to verify.
 :::
 
-:::warning 編集や上書きができない場合
-サーバー環境によっては、PHPスクリプトが生成したファイルの所有権が「実行ユーザー（apache/www-data等）」になり、FTP経由での操作が制限されることがあります。
+:::warning If Cannot Edit or Overwrite
+Depending on server environment, files generated by PHP scripts may have ownership set to "execution user (apache/www-data, etc.)", restricting FTP operations.
 
-その場合は、サーバーのコントロールパネル（ファイルブラウザ）を開き、対象ファイルのパーミッションを **`644`** に変更してから編集を行ってください。
+In that case, open the server's control panel (file browser) and change the target file's permissions to **`644`** before editing.
 :::
 
-:::warning 設定の反映
-ファイルを編集した後は、必ず上書き保存（アップロード）を忘れないようにしてください。保存されていない場合、設定が反映されず動作確認に失敗します。
+:::warning Applying Settings
+After editing files, don't forget to save (upload) the changes. If not saved, settings won't apply and testing will fail.
 :::
 
 ---
 
-## 🧪 動作確認 {#testing}
+## 🧪 Testing {#testing}
 
-設定が完了したら、実際にフィードバックが届くかテストを行います。
+Once setup is complete, test whether feedback is actually received.
 
-1. **[動作確認の手順](../../getting-started/quick-start.md#testing)** に沿ってアプリを実行。
-2. ゲーム内の **Custom > Feedback** タブから送信。
-3. 指定したサービス（Discord/Slack/Email）に通知が届けば成功です。
+1. Run app following **[Testing Procedure](../../getting-started/quick-start.md#testing)**.
+2. Submit from in-game **Custom > Feedback** tab.
+3. Success if notifications arrive at designated service (Discord/Slack/Email).
 
 <img src={require('../../feature-guide/img/feedback.jpg').default} width="550" className="margin-bottom--md" />
 
 ---
 
-## 🛡️ 運用とトラブルシューティング
+## 🛡️ Operations and Troubleshooting
 
-### 1. 悪質ユーザーのブロック（Blacklist）
+### 1. Blocking Malicious Users (Blacklist)
 
-特定の IP アドレスや `Reporter ID` を手動で拒絶したい場合は、`data/blacklist_???.txt` に 1 行ずつ追記してください。
+To manually reject specific IP addresses or `Reporter ID`, add one per line to `data/blacklist_???.txt`.
 <img src={require('./img/setup_blacklist.jpg').default} width="550" className="margin-bottom--md" />
 
-### 2. アクセスレポートの確認
+### 2. Checking Access Reports
 
-`report.php` にアクセスすることで、現在の送信数やブロック状況を確認できます。
-URL の末尾に `config.php` で生成された `secret_key` を付与してアクセスします。
+Access `report.php` to check current submission counts and block status.
+Add the `secret_key` generated in `config.php` to URL end.
 
-* **URL例**: `https://yourdomain.com/logify-api/report.php?key=xxxx`
+* **URL example**: `https://yourdomain.com/logify-api/report.php?key=xxxx`
 
-出力されたサマリーは `data/__database_???.txt` に保存されます。
+Output summary is saved to `data/__database_???.txt`.
 
 ```shell
 === Logify Access Report (Generated: 2026-02-18 15:39:06) ===
@@ -182,15 +182,13 @@ Reporter ID   | IP    | Active     | Blocked Until       | Last Violation      |
 
 <img src={require('./img/setup_database.jpg').default} width="550" className="margin-bottom--md" />
 
-### 3. デバッグログ
+### 3. Debug Logs
 
-送信に失敗する場合やサーバーエラー（500）が出る場合は、`data/debug_???.log` を確認してください。詳細なスタックトレースが記録されます。
+If submission fails or server error (500) occurs, check `data/debug_???.log`. Detailed stack traces are recorded.
 
-### 4. 高度な設定（Rate Limit / Auto Block）
+### 4. Advanced Settings (Rate Limit / Auto Block)
 
-`config.php` 内の数値を調整することで、ブルートフォース攻撃や連続送信への対策を強化できます。
+Strengthen countermeasures against brute force attacks and continuous submissions by adjusting values in `config.php`.
 
-* **`rate_limit`**: 1ユーザーあたりの送信頻度（例：1時間に3回まで）。
-* **`auto_block`**: 短時間に大量の違反リクエストを送ったユーザーを自動で一定時間隔離します。
-
-```
+* **`rate_limit`**: Submission frequency per user (e.g., up to 3 times per hour).
+* **`auto_block`**: Automatically isolates users sending large volumes of violation requests in short periods for a set duration.

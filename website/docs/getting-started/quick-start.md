@@ -2,33 +2,33 @@
 sidebar_position: 2
 ---
 
-# ⏱️ 10秒で動作を確認する
+# ⏱️ Verify in 10 Seconds
 
-本プラグインは、インポート後の**初期セットアップが不要**です。導入後、以下のステップですぐに機能を試せます。
+This plugin requires **no initial setup** after import. You can test functionality immediately after installation with the following steps.
 
-### 1. 動作確認の手順 {#testing}
+### 1. Testing Procedure {#testing}
 
-1. Unityエディタで任意のシーンを開き、**Playモード**を開始します。
-2. 画面の**左上隅（デフォルト位置）をロングプレス**（長押し）してください。
-3. デバッグ用ダイアログが表示されれば成功です。
+1. Open any scene in the Unity Editor and enter **Play mode**.
+2. **Long press** the **top-left corner** (default position) of the screen.
+3. If the debug dialog appears, the setup is successful.
 
 <img src={require('./img/testing.jpg').default} width="600" />
 
-### 2. 操作のカスタマイズ
+### 2. Customizing Controls
 
-**設定：** `Window > Logify-Unity > Settings`
+**Settings:** `Window > Logify-Unity > Settings`
 
-プロジェクトのUI配置に合わせて、起動条件は自由に変更可能です。
+The activation conditions can be freely adjusted to match your project's UI layout.
 
-**① 判定エリア:** 画面の四隅の調整  
-**② 起動トリガー:** ロングプレス / ダブルタップ / トリプルタップ
+**① Detection Area:** Adjust to any screen corner
+**② Activation Trigger:** Long press / Double tap / Triple tap
 
 <img src={require('./img/dialog-setting.jpg').default} width="400" />
 
 ---
 
-:::tip 補足
-* **シーンを汚さない設計:** `[RuntimeInitializeOnLoadMethod]` を使用して自動生成されるため、既存のシーン構造に影響を与えません
-* **有効化/無効化の切り替え:** `Window > Logify-Unity > Settings` から切り替え可能です
-* **実機での動作:** iOS / Android の実機環境でも、同様の操作でダイアログを呼び出すことが可能です。
+:::tip Notes
+* **Clean Scene Design:** Auto-generated using `[RuntimeInitializeOnLoadMethod]`, so it doesn't affect existing scene structure
+* **Enable/Disable Toggle:** Can be switched from `Window > Logify-Unity > Settings`
+* **Device Operation:** Works the same way on iOS / Android devices with similar gestures.
 :::

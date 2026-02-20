@@ -2,15 +2,15 @@
 sidebar_position: 1
 ---
 
-# 🎛️ コンテキスト駆動
+# 🎛️ Context-Driven
 
-メソッドの引数に `LogiViewContext` を追加することで、UIのライフサイクルに応じた**双方向の制御**が可能になります。
+By adding `LogiViewContext` as a method argument, you enable **bidirectional control** based on UI lifecycle.
 
-単なる「実行（Fire）」だけでなく、一つのメソッドで「状態の同期（Sync）」と「変更の適用（Update）」を記述する、高度な実装パターンです。
+An advanced implementation pattern where a single method describes not just "execution (Fire)" but also "state synchronization (Sync)" and "change application (Update)".
 
-### 📝 実装例：ステートフルな数値制御
+### 📝 Implementation Example: Stateful Numeric Control
 
-戻り値を定義し、第二引数に `LogiViewContext` を定義します。
+Define a return value and specify `LogiViewContext` as the second argument.
 
 ```csharp
 int _integer = 10;
@@ -18,30 +18,30 @@ int _integer = 10;
 [LogiButton("Advanced Counter")]
 int OnUpdateCounter(int input, LogiViewContext context)
 {
-    // 1. ユーザー入力時の処理
+    // 1. Processing on user input
     if (context == LogiViewContext.ValueChanged)
     {
-        // データのバリデーションやロギング
+        // Data validation and logging
         _integer = Mathf.Clamp(input, 0, 100);
         Debug.Log($"[Logify] Value changed: {_integer}");
     }
-    // 2. 描画・初期化時の処理
-    // UI側の表示を、常に現在のフィールド値 (_integer) と同期させます。
+    // 2. Processing on rendering/initialization
+    // Always synchronize UI display with current field value (_integer).
     return _integer;
 }
 ```
 
-### 🔄 ライフサイクル・ループ
+### 🔄 Lifecycle Loop
 
-メソッドは UI の更新に合わせて以下の 3 つのコンテキストで呼び出されます。
+The method is called in three contexts aligned with UI updates.
 
-| コンテキスト             | タイミング | 役割 |
-|--------------------| --- | --- |
-| **`Init`**         | 初回生成時 | デフォルト値の設定やキャッシュの構築を行います。 |
-| **`Repaint`**      | 描画更新時 | 現在の値を返します。 |
-| **`ValueChanged`** | 入力検知時 | ユーザーの変更を内部変数に適用（Setter）します。 |
+| Context | Timing | Role |
+| --- | --- | --- |
+| **`Init`** | Initial creation | Set default values and build cache. |
+| **`Repaint`** | Rendering update | Return current value. |
+| **`ValueChanged`** | Input detection | Apply user changes to internal variables (Setter). |
 
-### 図解 : コンテキスト駆動処理
+### Diagram: Context-Driven Processing
 
 ```mermaid
 sequenceDiagram
@@ -49,28 +49,28 @@ sequenceDiagram
     participant Method as Your Method
     participant Data as _field (Data)
 
-    Note over UI, Data: 初期表示・更新 (Init / Repaint)
+    Note over UI, Data: Initial Display/Update (Init / Repaint)
     UI->>Method: 1. Poll (Context: Repaint)
-    Method->>Data: 現在の値を参照
-Data-->>Method: 
-    Method-->>UI: return _field (UIに値を表示)
+    Method->>Data: Reference current value
+Data-->>Method:
+    Method-->>UI: return _field (Display value on UI)
 
-Note over UI, Data: ユーザー操作時 (ValueChanged)
-UI->>Method: 2. Event (Context: ValueChanged, input: 新しい値)
+Note over UI, Data: User Operation (ValueChanged)
+UI->>Method: 2. Event (Context: ValueChanged, input: new value)
 activate Method
-Method->>Method: バリデーション / ロジック実行
-Method->>Data: _field = validatedInput (保存)
+Method->>Method: Validation / Logic execution
+Method->>Data: _field = validatedInput (Save)
 deactivate Method
-Method-->>UI: return _field (確定した値を返却)
+Method-->>UI: return _field (Return confirmed value)
 ```
 
 ---
 
-### 📖 実践レシピ：入力・実行・クリアの連携
+### 📖 Practical Recipe: Input, Execute, Clear Coordination
 
-デバッグメニューでは、「文字列を入力して送信し、送信後に入力欄を空にする」といった操作が頻繁に発生します。コンテキスト駆動処理を用いると、これを極めて簡潔に実装できます。
+Debug menus frequently require operations like "enter string, submit, and clear input field after submission". Context-driven processing makes this extremely concise.
 
-#### 実装例：デバッグメッセージ送信
+#### Implementation Example: Debug Message Submission
 
 ```csharp
 using UnityEngine;
@@ -80,8 +80,8 @@ public sealed class MessageDebugger : MonoBehaviour
 {
     string _currentMessage = string.Empty;
 
-    // 1. メッセージ入力欄
-    // Repaintコンテキストにより、内部変数 (_currentMessage) が空になるとUIも自動でクリアされます
+    // 1. Message input field
+    // Through Repaint context, UI automatically clears when internal variable (_currentMessage) becomes empty
     [LogiInput("Message to Send")]
     string OnUpdateMessage(string input, LogiViewContext context)
     {
@@ -92,8 +92,8 @@ public sealed class MessageDebugger : MonoBehaviour
         return _currentMessage;
     }
 
-    // 2. 送信ボタン
-    // ボタンクリック時に処理を行い、そのあと内部変数をリセットします
+    // 2. Send button
+    // Processes on button click, then resets internal variable
     [LogiButton("Send & Clear", "Send")]
     void Send()
     {
@@ -102,10 +102,10 @@ public sealed class MessageDebugger : MonoBehaviour
             return;
         }
         Debug.Log($"[Server] Sending: {_currentMessage}");
-        // 内部変数をクリアするだけで、Input側のRepaintによってUIも自動で同期されます
+        // Simply clearing internal variable automatically syncs UI through Input-side Repaint
         _currentMessage = string.Empty;
     }
-    
+
     void Awake() => Logi.Register(this, "Network Debug").AddTo(this);
 }
 

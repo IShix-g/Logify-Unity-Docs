@@ -4,23 +4,23 @@ sidebar_position: 3
 
 # ⚙️ Initialization & 📑 Tabs
 
-複雑なUI構築を必要とせず、クラス単位で論理的に整理されたデバッグメニューを生成します。
+Generates logically organized debug menus by class without requiring complex UI construction.
 
 <img src={require('./img/tab.jpg').default} width="550" className="margin-bottom--md" />
 
-## 📑 自動グループ化の仕組み
+## 📑 Automatic Grouping Mechanism
 
-`Logi.Register` を呼び出すと、Attribute（`[LogiButton]` など）を検知し、その**定義クラス単位**で自動的にグループ化され、上部のタブとして展開されます。
+When calling `Logi.Register`, it detects Attributes (such as `[LogiButton]`) and automatically groups them by **defining class**, expanding as tabs at the top.
 
-### ⌨️ 登録方法
+### ⌨️ Registration Method
 
-登録には、自身のインスタンス、タブ名、および表示順序（Order）を指定します。
+Registration requires specifying your instance, tab name, and display order (Order).
 
 ```csharp
-// 登録
+// Registration
 void Awake() => Logi.Register(this, "Tests (Instance)", 1);
 
-// 必ず破棄時に解除が必要です
+// Must unregister on destroy
 void OnDestroy() => Logi.Unregister(this);
 
 [LogiButton("Test Button", "Execute")]
@@ -29,72 +29,72 @@ void Test() => Debug.Log("Test");
 // ...
 ```
 
-#### 💡 ライフサイクル管理の自動化
+#### 💡 Automating Lifecycle Management
 
-`OnDestroy` での解除漏れを防ぐため、オブジェクトの消滅を検知して自動で削除する `AddTo` 拡張メソッドも利用できます。
+To prevent forgetting to unregister in `OnDestroy`, you can use the `AddTo` extension method that detects object destruction and automatically removes it.
 
 ```csharp
-// UniRxなどのObservableと同様の感覚でライフサイクルを紐付け可能
+// Can bind lifecycle similar to Observable in UniRx
 void Awake()
     => Logi.Register(this, "Tests (Instance)", 1)
-       .AddTo(this); // 追加
+       .AddTo(this); // Added
 
-// 自動で破棄時に登録解除されるので必要なし
+// No need for manual unregistration
 // void OnDestroy() => Logi.Unregister(this);
 ```
 
 ---
 
-### 🏗️ 高度な構成：ILogiCommandGroup の実装
+### 🏗️ Advanced Configuration: Implementing ILogiCommandGroup
 
-`MonoBehaviour` であれば `Awake` 時に名前や順序を指定できますが、ピュアC#クラス（POCO）などで、**「クラス側で自身のタブ名や表示順序を定義したい」** 場合は、`ILogiCommandGroup` インターフェースを実装します。
+For `MonoBehaviour`, you can specify names and order in `Awake`, but for pure C# classes (POCOs) where you want **"the class to define its own tab name and display order,"** implement the `ILogiCommandGroup` interface.
 
-これにより、登録側（Caller）が詳細を知らなくても、適切なメタデータを持ってメニューに構築されます。
+This allows the menu to be constructed with appropriate metadata without the caller knowing the details.
 
 ```csharp
 public sealed class MyClass : ILogiCommandGroup, IDisposable
 {
-    // タブ名（グループ名）の定義
+    // Tab name (group name) definition
     string ILogiCommandGroup.GroupName => "My Group";
 
-    // タブの表示優先順位（昇順）
+    // Tab display priority (ascending order)
     int ILogiCommandGroup.Priority => 2;
-    
+
     [LogiButton("Test Button", "Execute")]
     void Test() => Debug.Log("Test");
 
-    // IDisposable を実装しておくと、
-    // Logi.Unregister() 実行時、または紐付けたオブジェクトの破棄時に Dispose が呼ばれます。
+    // If IDisposable is implemented,
+    // Dispose is called when Logi.Unregister() executes or when linked object is destroyed.
     public void Dispose()
     {
-        // マネージドリソースの解放など
+        // Release managed resources, etc.
     }
 }
 ```
 
-#### 🛠️ 登録側のコード
+#### 🛠️ Registration Code
 
-インターフェースを実装している場合、引数を省略してシンプルに登録できます。
+When the interface is implemented, you can register simply by omitting arguments.
 
 ```csharp
-// クラス内の定義に基づいて自動でタブが生成される
+// Tabs are automatically generated based on class definition
 var myClass = new MyClass();
-Logi.Register(myClass).AddTo(this); 
+Logi.Register(myClass).AddTo(this);
 ```
 
 ---
 
-## ⚠️ Staticクラスの取り扱い {#static-warning}
-`static` クラス（Type）の登録は、**原則として推奨されません。**
-* **理由**: UIがシーン内のオブジェクトに依存している場合、シーン破棄後もUIが残り続け、操作時に `MissingReferenceException` を引き起こす原因となります。
-* **推奨**: `MonoBehaviour` の `OnEnable` / `OnDisable` 等、ライフサイクルに合わせた明示的な登録・解除を行ってください。
+## ⚠️ Handling Static Classes {#static-warning}
+Registering `static` classes (Type) is **generally not recommended.**
+* **Reason**: If UI depends on objects in the scene, UI persists after scene destruction, causing `MissingReferenceException` during operations.
+* **Recommendation**: Perform explicit registration/unregistration aligned with lifecycle using `MonoBehaviour`'s `OnEnable` / `OnDisable`, etc.
 
 ---
 
-## 💡 活用シーン：初期化 = タブの自動生成
+## 💡 Usage Scenario: Initialization = Automatic Tab Generation
 
-実機デバッグにおいて、**「初期化時に登録する」** という1ステップだけで、デバッグメニューは常に最新かつ整理された状態に保たれます。
+In device debugging, **"registering during initialization"** in a single step keeps the debug menu always current and organized.
 
-:::tip Point
-クラス単位でタブが分かれるため、機能ごとにコンポーネントを分割するだけで、自然と使いやすいデバッグUIが構築されていきます。
+:::tip Key Point
+Since tabs are divided by class, simply splitting components by feature naturally creates an easy-to-use debug UI.
 :::

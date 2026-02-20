@@ -4,48 +4,48 @@ sidebar_position: 1
 
 # 📊 Performance Stats
 
-ゲームの動作状況をリアルタイムで監視するためのオーバーレイ表示機能です。
-FPS（フレームレート）や各種メモリ使用量を常に確認でき、パフォーマンスのボトルネックを早期に発見するのに役立ちます。
+An overlay display feature for real-time monitoring of game performance.
+Continuously displays FPS (frame rate) and various memory usage metrics to help identify performance bottlenecks early.
 
 <img src={require('../feature-guide/img/stats.jpg').default} width="550" />
 
-### 🛠️ 主な表示項目
+### 🛠️ Main Display Items
 
-* **FPS:** フレームレート。現在の処理速度を計測します
-* **Mem:** 現在のトータル使用メモリ / 端末の最大メモリ
-* **Gfx:** グラフィックス（VRAM）に関連するメモリ使用量
-* **Mono:** C#（Managed）ヒープのメモリ使用量。GCの発生タイミングの把握に有効です
+* **FPS:** Frame rate. Measures current processing speed
+* **Mem:** Current total memory usage / device maximum memory
+* **Gfx:** Graphics (VRAM) related memory usage
+* **Mono:** C# (Managed) heap memory usage. Effective for tracking GC occurrence timing
 
-### 🚀 使いどころ
+### 🚀 Use Cases
 
-画面上にリアルタイムの負荷状況（FPS・メモリ消費）を表示し、実機テスト中の「違和感」を即座に数値で裏付けます。
+Displays real-time load conditions (FPS, memory consumption) on screen, allowing instant numerical verification of any "lag" noticed during device testing.
 
-#### 「カクつき」の原因特定
-* FPSの低下と同時に **Mono**（Managedメモリ）が急増していれば、GC（ガベージコレクション）によるスパイクの可能性を疑えます。
-
-
-#### グラフィックス負荷の監視
-* **Gfx**（GPUメモリ）の数値を追うことで、テクスチャの読み込みすぎや、VRAM不足によるクラッシュの予兆を検知できます。
+#### Identifying Causes of Stuttering
+* If **Mono** (Managed memory) increases sharply along with FPS drops, you can suspect GC (Garbage Collection) spikes.
 
 
-#### メモリリークの早期発見
-* シーン遷移を繰り返しても **Mem**（Total Allocated）が減らなければ、参照が残り続けているリークの可能性をその場で判断できます。
+#### Monitoring Graphics Load
+* By tracking **Gfx** (GPU memory) values, you can detect signs of crashes due to excessive texture loading or VRAM shortages.
 
 
-#### QA・テスターとの連携
-* バグ報告のスクリーンショットにこの数値が写っているだけで、エンジニアはプロファイラを回す前にある程度の「アタリ」を付けることができます。
+#### Early Detection of Memory Leaks
+* If **Mem** (Total Allocated) doesn't decrease after repeated scene transitions, you can immediately identify potential leaks where references remain.
 
-### 🎨 表示モードの切り替え
 
-プロジェクトのデバッグニーズに合わせて、2つの表示モードを選択できます。
+#### Collaboration with QA/Testers
+* Simply having these values visible in bug report screenshots allows engineers to get a general idea before running the profiler.
+
+### 🎨 Switching Display Modes
+
+Choose between two display modes to suit your project's debugging needs.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-| モード | 特徴 |
+| Mode | Features |
 | --- | --- |
-| **Detailed** | すべての統計情報を詳細に表示します |
-| **Simple** | FPSと主要なメモリ情報のみを1行でコンパクトに表示します |
+| **Detailed** | Displays all statistics in detail |
+| **Simple** | Shows only FPS and main memory info compactly in one line |
 
 <Tabs className="margin-bottom--md">
 <TabItem value="num" label="Detailed" default>
@@ -56,20 +56,20 @@ import TabItem from '@theme/TabItem';
 </TabItem>
 </Tabs>
 
-### ⚙️ カスタマイズ（Settings）
+### ⚙️ Customization (Settings)
 
-`Window > Logify-Unity > Settings` から、アプリのUIを邪魔しないように細かく調整が可能です。
+Fine-tuned adjustments can be made from `Window > Logify-Unity > Settings` to avoid interfering with your app's UI.
 
 <img src={require('./img/stats-setting.jpg').default} width="500" />
 
-* **Activation Scope:** エディタのみ、実機のみ、あるいは両方で表示するかを選択できます。
+* **Activation Scope:** Choose to display only in Editor, only on device, or both.
 
 #### Visual Appearance:
-* **Mode:** Detailed / Simple の切り替え
-* **Font Size:** テキストの大きさを調整
-* **Position:** 画面の四隅（Right Top / Left Bottomなど）から表示位置を選択
+* **Mode:** Switch between Detailed / Simple
+* **Font Size:** Adjust text size
+* **Position:** Select display position from screen corners (Right Top / Left Bottom, etc.)
 
 #### Performance Thresholds:
-* FPSの数値に応じてテキストの色を動的に変更します（例：30 FPS以下で黄色など）
-* 閾値はスライダーで直感的にカスタマイズ可能です
-* **Update Interval:** 更新間隔（秒）を設定します。デフォルトは 0.5 秒です
+* Dynamically changes text color based on FPS values (e.g., yellow below 30 FPS)
+* Thresholds can be intuitively customized with sliders
+* **Update Interval:** Set update interval (seconds). Default is 0.5 seconds

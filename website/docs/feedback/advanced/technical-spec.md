@@ -2,31 +2,31 @@
 sidebar_position: 3
 ---
 
-# 🧠 技術仕様：署名と認証プロトコル
+# 🧠 Technical Specification: Signature and Authentication Protocol
 
-本プラグインのサーバー経由型（アプリ構成型）では、単なるパスワード認証ではなく、現代的なWeb APIのベストプラクティスに基づいた**多層防御プロトコル**を採用しています。
+This plugin's server-mediated type (app configuration type) adopts a **multi-layered defense protocol** based on modern Web API best practices, not just simple password authentication.
 
-## 🔐 3つの認証レイヤー
+## 🔐 Three Authentication Layers
 
-本プラグインは、1回のリクエストに対して以下の3つの検証を同時に行います。
+This plugin simultaneously performs three verifications for each request.
 
 1. **Shared Signature (HMAC-SHA256)**
-* `Shared Secret`（共通鍵）を使用。
-* クライアントとサーバー双方が同じ鍵を持ち、ペイロードのハッシュを検証します。これにより、バイナリを解析していない第三者による安易なリクエストを遮断します。
+* Uses `Shared Secret` (shared key).
+* Both client and server hold the same key and verify payload hash. This blocks naive requests from third parties who haven't analyzed the binary.
 
-2. **Device Signature (非対称鍵署名)**
-* デバイスごとに生成される固有の秘密鍵を使用。
-* 初期認証に使用され、「その Reporter ID が本当にその端末から送られているか」を証明します（なりすまし防止）。
+2. **Device Signature (Asymmetric Key Signature)**
+* Uses device-specific generated private key.
+* Used for initial authentication, proving "that Reporter ID is actually sent from that device" (preventing impersonation).
 
-3. **Access Token (短期有効トークン)**
-* 認証成功後にサーバーから発行される一時的なトークン。
-* 有効期限（TTL）が設定されており、万が一パケットがキャプチャされても、被害を最小限に抑えます。
+3. **Access Token (Short-Term Token)**
+* Temporary token issued by server after successful authentication.
+* Has TTL (time to live), minimizing damage even if packet is captured.
 
 ---
 
-## 🛠️ セキュリティ・通信シーケンス
+## 🛠️ Security Communication Sequence
 
-悪意のあるユーザーによる虚偽のフィードバック送信やデータの改ざんを防ぐため、**二段階の検証プロセス**を採用しています。
+To prevent false feedback submissions and data tampering by malicious users, adopts a **two-stage verification process**.
 
 ```mermaid
 sequenceDiagram
@@ -35,71 +35,71 @@ sequenceDiagram
     participant API as Data Endpoint
     participant DB as SQLite Database
 
-    Note over Client: 1. 署名作成 (Shared + Device ID)
-    Client->>Auth: トークン要求 (ReporterID, DevicePubKey, Signature)
-    
-    Note over Auth: 2. 署名検証 & 鍵の信頼性確認
-    Auth->>DB: デバイス鍵の照合 / 新規登録
+    Note over Client: 1. Create signature (Shared + Device ID)
+    Client->>Auth: Token request (ReporterID, DevicePubKey, Signature)
+
+    Note over Auth: 2. Signature verification & key trust confirmation
+    Auth->>DB: Device key verification / new registration
     DB-->>Auth: OK
-    
-    Auth-->>Client: Access Token 発行
-    
-    Note over Client: 3. データパッキング & 署名
+
+    Auth-->>Client: Access Token issued
+
+    Note over Client: 3. Data packing & signing
     Note over Client: (Payload + Token + Signature)
-    
-    Client->>API: フィードバック送信 (Encrypted Payload)
-    
-    Note over API: 4. トークン有効性 & 改ざん検知
-    API->>DB: トークン有効期限・使用回数チェック
+
+    Client->>API: Submit feedback (Encrypted Payload)
+
+    Note over API: 4. Token validity & tampering detection
+    API->>DB: Token expiry/usage count check
     DB-->>API: Valid
-    
-    Note over API: 5. 外部連携
-    API->>Discord/Slack: Webhook通知
+
+    Note over API: 5. External integration
+    API->>Discord/Slack: Webhook notification
     API-->>Client: 200 OK (Success)
 
 ```
 
-### 1. トークンの取得（Authentication）
+### 1. Token Acquisition (Authentication)
 
-送信を開始する前に、まずサーバーへ一時的なアクセス権を要求します。
+Before starting submission, first request temporary access rights from server.
 
-* **Nonce & Timestamp**: リプレイ攻撃（同一パケットの再送）を防ぐため、1回限りの値と有効期限を付与します。
-* **Device Key Persistence**: 初回アクセス時にデバイス固有の公開鍵を登録します。以降、同一の **Reporter ID** からは、ペアとなる秘密鍵による正当な署名がない限りアクセスを拒否します。
+* **Nonce & Timestamp**: To prevent replay attacks (resending identical packets), assigns one-time value and expiry.
+* **Device Key Persistence**: Registers device-specific public key on first access. Subsequently, access from same **Reporter ID** is rejected without valid signature from paired private key.
 
-### 2. フィードバックの送信（Data Integrity）
+### 2. Feedback Submission (Data Integrity)
 
-取得したトークンを用いて、実際のデータをパッキングして送信します。
+Using obtained token, pack and send actual data.
 
-* **Payload Hashing**: メッセージ、デバイス情報、添付ファイルのすべてを包含したハッシュ値を生成します。
-* **End-to-End Signature**: 生成したハッシュをデバイス鍵で署名します。これにより、サーバーに届くまでの経路でデータが 1 ビットでも改ざんされた場合、サーバー側で即座に検知・破棄されます。
-
----
-
-## 🛡️ 高度なセキュリティ機能
-
-### キーローテーション (Key Rotation)
-
-Logifyは、同一のデバイス鍵を永遠に使い続けるリスクを考慮し、**任意の日周期でのキーローテーション**をサポートしています。
-
-* 新しい鍵ペアを生成し、古い鍵で「新しい公開鍵」に対して署名を行うことで、所有権を証明しながら安全に鍵を更新します。
-
-### レートリミット & オートブロック
-
-サーバー側で以下の流量制限を動的に行います。
-
-* **Token Rate Limit:** 短時間にトークンを過剰に要求するクライアントを一時的にブロック。
-* **Auto Block:** 署名エラーなどの「不正なリクエスト」を繰り返すIPアドレスを自動的にブラックリストへ登録します。
+* **Payload Hashing**: Generates hash value encompassing all message, device info, and attachments.
+* **End-to-End Signature**: Signs generated hash with device key. If data is tampered even 1 bit in transit to server, server immediately detects and discards.
 
 ---
 
-## 📝 攻撃に対する耐性
+## 🛡️ Advanced Security Features
 
-この堅牢なプロトコルにより、以下の攻撃に対して高い耐性を持ちます。
+### Key Rotation
 
-* **なりすまし:** 他人の `Reporter ID` を語って偽の報告を送る。
-* **改ざん:** 送信途中のスクリーンショットやログの内容を書き換える。
-* **リプレイ:** 過去に成功した通信をコピーしてサーバーをパンクさせる。
+Logify supports **key rotation on any day cycle**, considering risks of perpetually using same device key.
 
-:::info セキュリティとパフォーマンス
-これら複雑な署名計算は、Unity側では非同期（Task/Await）で処理され、メインスレッドのパフォーマンス（FPS）に影響を与えないよう設計されています。また、 **IL2CPP** を使用することで、C#層のロジック自体も難読化され、より安全性が高まります。
+* Generates new key pair and signs "new public key" with old key, proving ownership while safely updating key.
+
+### Rate Limit & Auto Block
+
+Server-side performs following rate limiting dynamically:
+
+* **Token Rate Limit:** Temporarily blocks clients excessively requesting tokens in short period.
+* **Auto Block:** Automatically registers IP addresses repeating "invalid requests" like signature errors to blacklist.
+
+---
+
+## 📝 Attack Resistance
+
+This robust protocol provides high resistance to following attacks:
+
+* **Impersonation:** Pretending to be someone else's `Reporter ID` to send false reports.
+* **Tampering:** Rewriting screenshot or log contents during transmission.
+* **Replay:** Copying past successful communications to overwhelm server.
+
+:::info Security and Performance
+These complex signature calculations are processed asynchronously (Task/Await) on Unity side, designed not to impact main thread performance (FPS). Also, using **IL2CPP** further obfuscates C# layer logic, increasing safety.
 :::

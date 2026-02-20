@@ -2,40 +2,40 @@
 sidebar_position: 3
 ---
 
-# 🛡️ サーバー運用とセキュリティ
+# 🛡️ Server Operations and Security
 
-## なぜ「アプリ完結」では不十分なのか？
+## Why "App-Only" is Insufficient?
 
-本プラグインでは、「Secret Generator」によって重要情報をC++ネイティブプラグイン化し、バイナリ解析への耐性を高めています。しかし、これはあくまで**第一防衛線**に過ぎません。
+This plugin uses "Secret Generator" to convert critical information into C++ native plugins, increasing resistance to binary analysis. However, this is merely a **first line of defense**.
 
-### 1. 「隠蔽（Obfuscation）」と「隔離（Isolation）」の違い
+### 1. Difference Between "Obfuscation" and "Isolation"
 
-C++プラグインによる保護は「隠蔽」です。情報を読みにくくしますが、データ自体は端末内に存在します。一方で、サーバー運用は情報の **「隔離」** を可能にします。
+C++ plugin protection is "obfuscation". It makes information harder to read, but data still exists within the device. In contrast, server operations enable information **"isolation"**.
 
-* **アプリ完結型:** Webhook URLやAPIキーがバイナリ内に含まれる。一度抽出されると、攻撃者はそのキーを使い放題になる
-* **サーバー経由型:** アプリは「共通の鍵（Shared Secret）」しか持たず、**真に守るべき情報（DiscordのURL、Slackトークン、メールサーバーの認証情報）はサーバーの中にだけ存在します**
+* **App-Only Type:** Webhook URLs and API keys are contained in binary. Once extracted, attackers can use the key freely
+* **Server-Mediated Type:** App holds only "shared key (Shared Secret)", and **truly critical information (Discord URL, Slack token, mail server credentials) exists only inside the server**
 
-### 2. 攻撃の影響範囲を最小化する
+### 2. Minimizing Attack Impact
 
-もし万が一、端末内の「Shared Secret」が解析によって漏洩したとしても、サーバーがあれば以下の防衛措置が瞬時に機能します。
+Even if "Shared Secret" inside device leaks through analysis, having a server allows instant defensive measures:
 
-* **流量制限（Rate Limiting）:** 1分間に100回送るようなスパム攻撃を、IPやReporter ID単位で遮断します。アプリ完結型では、攻撃者が直接Webhookを叩くのを止める術がありません。
-* **認証の無効化:** アプリをアップデートすることなく、サーバー側の設定一つで漏洩したトークンを無効化したり、新しい鍵に差し替えたりできます。
-* **動的なブラックリスト:** 特定の悪質ユーザー（Reporter ID）をサーバー側で即座にBANできます。
+* **Rate Limiting:** Blocks spam attacks like 100 submissions per minute by IP or Reporter ID. In app-only type, no way to stop attackers directly hitting webhooks.
+* **Credential Invalidation:** Can invalidate leaked tokens or replace with new keys through server-side configuration alone, without updating app.
+* **Dynamic Blacklist:** Can immediately BAN specific malicious users (Reporter ID) server-side.
 
-### 3. 改ざん検知（HMAC署名）の役割
+### 3. Tampering Detection Role (HMAC Signature)
 
-サーバー構成では、リクエストごとに **HMAC（Hash-based Message Authentication Code）** による署名検証を行います。
+Server configuration performs **HMAC (Hash-based Message Authentication Code)** signature verification for each request.
 
-これにより、単にパケットをコピーして再送する「リプレイ攻撃」や、送信内容を勝手に書き換える「改ざん」を防ぎます。サーバーはこの署名が正しい場合のみ、外部サービス（Discord等）へリクエストを転送します。
+This prevents "replay attacks" (resending copied packets) and "tampering" (arbitrarily rewriting submission content). Server only forwards requests to external services (Discord, etc.) when signature is correct.
 
 ---
 
-### まとめ
+### Summary
 
-**「端末にあるものは、いつか盗まれる」**。
-この前提に立ち、盗まれても致命傷にならない設計にする。それこそが、サーバー構成の最大の利点です。
+**"What's on device will eventually be stolen"**.
+Stand on this premise and design so that even if stolen, it won't be fatal. That's the greatest advantage of server configuration.
 
-もちろん、クローズドな開発環境であれば「アプリ完結型」の手軽さは大きな武器になります。しかし、**開発チーム以外の外部テスターを招く場合や、パブリックなベータテスト**など、自分たちの目が届かない範囲にアプリが広がるフェーズでは、このサーバー構成が強力な安心材料になります。
+Of course, "app-only type" simplicity is a powerful weapon in closed development environments. However, **when inviting external testers beyond development team or conducting public beta tests** where app spreads beyond your reach, this server configuration becomes strong insurance.
 
-「もしも」の時のリスクヘッジをサーバーに任せることで、開発者は安心してフィードバックの収集と改善に集中できるようになります。
+By leaving "what if" risk hedging to the server, developers can focus on feedback collection and improvement with peace of mind.

@@ -1,55 +1,55 @@
 ---
 slug: /
 sidebar_position: 1
-title: 🏁 概要
+title: 🏁 Overview
 ---
 
 ![logo](./img/header.jpg)
 
-# 🏁 概要
+# 🏁 Overview
 
-**Logify-Unity** は、Unityモバイルゲーム開発における「実機デバッグの煩わしさ」を解消するために設計された、高機能ランタイム・デバッグツールです。
+**Logify-Unity** is an advanced runtime debugging tool designed to eliminate the frustrations of on-device debugging in Unity mobile game development.
 
-### ✨ 主な機能
+### ✨ Key Features
 
-Logify-Unityは、実機デバッグに必要なツールを統合した、以下の5つの主要機能を備えています。
+Logify-Unity integrates essential tools for on-device debugging, offering five core features:
 
 ### 📊 [Performance Stats](../features/stats.md)
 
-実行中のパフォーマンスをリアルタイムで監視します。
+Real-time monitoring of runtime performance.
 
 <img src={require('./img/stats.jpg').default} width="500" />
 
-* **FPS:** 急激なフレームレートの推移をカラーリング（警告色）で視覚的に通知します
-* **メモリ監視:** 種類別にメモリの使用量を表示
+* **FPS:** Visual notifications of sudden frame rate changes using color-coded warnings
+* **Memory Monitoring:** Display memory usage by type
 
 ### 💻 [In-Game Console](../features/console.md)
 
-Unity EditorのConsoleウィンドウとほぼ同等の体験を実機上で提供します。
+Provides an experience nearly equivalent to Unity Editor's Console window on actual devices.
 
 <img src={require('./img/console.jpg').default} width="500" />
 
-* **ログ出力:** `Debug.Log` などの標準出力をキャッチ
-* **フィルタリング:** ログレベル（Log/Warning/Error）による絞り込み、スタックトレースの確認が可能です
+* **Log Output:** Captures standard output like `Debug.Log`
+* **Filtering:** Filter by log level (Log/Warning/Error) and view stack traces
 
 ### ⚙️ [System - Detailed](../features/system.md)
 
-動作している端末のハードウェア・ソフトウェア情報を一括表示します。
+Displays hardware and software information of the running device at a glance.
 
 <img src={require('./img/system.jpg').default} width="500" className="margin-bottom--md" />
 
-* **環境確認:** OSバージョン、モデル名、グラフィックスAPI、メモリ量など、不具合調査に必要な環境情報を即座に参照できます
+* **Environment Info:** Instantly access environmental information needed for debugging, such as OS version, model name, graphics API, and memory size
 
 ### 🛠️ [Custom Menus](../custom/overview.md)
 
-プロジェクト固有のデバッグ機能を最小限のコードで追加できます。
+Add project-specific debug functionality with minimal code.
 
 <img src={require('./img/custom.jpg').default} width="500" className="margin-bottom--md" />
 
-* **独自UI:** スクリプトからアトリビュートを付与した関数を定義するだけで、ボタン、スライダー、入力フィールドなどを管理画面に追加可能
-* **インスタンス操作:** 実行中のシングルトンや特定オブジェクトのパラメータを動的に変更できます
+* **Custom UI:** Simply define functions with attributes in your scripts to add buttons, sliders, input fields, and more to the management screen
+* **Real-time State Tweaking:** Dynamically modify parameters of active singletons or object instances on the fly.
 
-#### コードサンプル
+#### Code Sample
 ```csharp
 using Logify;
 
@@ -68,31 +68,35 @@ void Test(int integer)
 
 ### 📧 [Feedback](../feedback/overview.md)
 
-テスターや開発メンバーからのフィードバックを受け付けるフォームです。
+A form for receiving feedback from testers and development team members.
 
 <img src={require('./img/feedback.jpg').default} width="500" className="margin-bottom--md" />
 
-#### Discordの受信例:
+#### Discord Reception Example:
 <img src={require('./img/discord.jpg').default} width="500" className="margin-bottom--md" />
 
-* **マルチ連携:** ゲーム内から直接 **Slack / Discord / メール** へ報告を送信[*1]
-* **自動添付:** 送信時のSystem情報、直近のログを自動的にパッケージングして送信可能です
-* **スクリーンショット:** スクリーンショットも添付できます
+* **Multi-Platform Integration:** Send reports directly from in-game to **Slack / Discord / Email**[*1]
+* **Auto-Attach:** Automatically packages and sends system information and recent logs at the time of submission
+* **Screenshots:** Attach screenshots to your reports
 
 :::note
-`*1` メール送信機能を利用するには、中継用のエンドポイント（Server-side API）が必要です。即座に運用可能な PHP スクリプトをパッケージに同梱しています。PHPが利用できるサーバーであれば誰でも簡単に導入できます。詳しくは[サーバーセットアップ](../feedback/advanced/server-setup.md)をごらんください。
+`*1` Using the email sending feature requires a relay endpoint (server-side API). A ready-to-use PHP script is included in the package. Anyone with access to a server running PHP can easily deploy it. See [Server Setup](../feedback/advanced/server-setup.md) for details.
 :::
 
 ---
 
-### 🚀 開発の背景
-モバイル開発において、エディタ上では再現しない実機特有の不具合調査は常に困難を極めます。本ライブラリは、シーンを汚さず、最小限の導入コストで、実機での内部状態の可視化と操作を可能にします。
+### 🚀 Development Background
+In mobile development, investigating device-specific bugs that don't reproduce in the editor is always challenging. This library enables visualization and manipulation of internal states on actual devices without cluttering your scenes, with minimal integration cost.
 
-### ✨ 主な特徴
-* **Zero Setup:** プレハブの配置や初期化コードの記述は不要です
-* **Low Overhead:** 非表示時はリソースをほぼ消費せず、パフォーマンスへの影響を最小限に抑えています
-* **Native Feel:** iOS/Androidのタッチ入力に最適化された直感的な操作感
-* **Clean Build:** 独自のストリッピング機構により、リリースビルドへの不要なリソース混入を防ぎます
+### ✨ Key Characteristics
+* **Zero Setup:** No need to place prefabs or write initialization code
+* **Low Overhead:** Consumes virtually no resources when hidden, minimizing performance impact
+* **Native Feel:** Intuitive operation optimized for iOS/Android touch input
+* **Clean Build:** Proprietary stripping mechanism prevents unnecessary resources from being included in release builds
 
-### 🛠 動作の仕組み
-内部的に `[RuntimeInitializeOnLoadMethod]` を使用して常駐します。既存の `EventSystem` や UI 構造を書き換えたりPrefabを設置したりする必要はありません。
+### 🛠 How It Works
+Internally uses `[RuntimeInitializeOnLoadMethod]` to run persistently. No need to modify existing `EventSystem` or UI structure, or place prefabs.
+
+---
+
+⭐ Loving Logify-Unity? Please consider leaving a review on the [Asset Store](https://assetstore.unity.com/packages/slug/360718)!

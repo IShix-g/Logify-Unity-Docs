@@ -1,32 +1,32 @@
 ---
 sidebar_position: 3
-title: 🚀 30秒でわかる魅力
+title: 🚀 Why Logify in 30 Seconds
 ---
 
-# 🚀 Why Logify? (30秒でわかる魅力)
+# 🚀 Why Logify?
 
-「なぜ Logify を選ぶのか？」その理由は、単なる多機能さではなく、プロフェッショナルな開発現場の要求に耐えうる **「設計思想」** にあります。
+"Why choose Logify?" The answer isn't just about features—it's about **design philosophy** that meets the demands of professional development environments.
 
-### 1. Assets ディレクトリを「汚さない」
+### 1. Keeps Your Assets Directory Clean
 
-`Assets` 以下にファイルを展開しません。UPM 準拠の形式で `Packages` 内に完全に分離されます。
+No files are deployed under `Assets`. It's completely isolated in `Packages` using UPM-compliant format.
 
-* **メリット**: プロジェクトルートがクリーンに保たれ、Git の競合や管理コストを劇的に削減します。
+* **Benefit**: Keeps your project root clean, dramatically reducing Git conflicts and management overhead.
 
-### 2. 「魔法」を排除した明示的なライフサイクル
+### 2. Explicit Lifecycle, No Magic
 
-自動的な初期化は、起動速度や実行順序の制御を困難にします。
+Automatic initialization makes it difficult to control startup speed and execution order.
 
-* **こだわり**: Logify は `Register/Unregister` による**明示的な登録方式**を採用しています。`MonoBehaviour` の `OnEnable/OnDisable` に合わせた柔軟な制御が可能で、意図しないメモリリークやサイドエフェクトを許しません。
+* **Our Approach**: Logify adopts an **explicit registration system** using `Register/Unregister`. It allows flexible control aligned with `MonoBehaviour`'s `OnEnable/OnDisable`, preventing unintended memory leaks and side effects.
 
-### 3. 「主観」を「客観データ」へ変換する
+### 3. Transform Subjective Reports into Objective Data
 
-テスターからの報告も、症状だけでは解決が難しいものもあります。
+Tester reports with only symptom descriptions can be difficult to resolve.
 
-* **解決策**: フィードバックを送った際に「スクリーンショット」「詳細ログ」「その瞬間のパフォーマンス統計」をパッケージ化。主観的な訴えを、エンジニアが解決可能な客観的データへと変換します。
+* **Solution**: When feedback is sent, it packages "screenshots," "detailed logs," and "performance statistics at that moment." This transforms subjective complaints into objective data that engineers can act on.
 
-### 4. プロレベルの通信セキュリティ
+### 4. Professional-Grade Communication Security
 
-デバッグツールの導入はセキュリティリスクと隣り合わせです。
+Integrating debug tools can introduce security risks.
 
-* **堅牢性**: デバイス固有鍵による署名検証と、ペイロードのハッシュチェックを実施。中間者攻撃やデータの改ざんを検知・破棄し、開発者の Webhook URL やサーバーを守ります。
+* **Robustness**: Implements signature verification using device-specific keys and payload hash checking. Detects and rejects man-in-the-middle attacks and data tampering, protecting your webhook URLs and servers.

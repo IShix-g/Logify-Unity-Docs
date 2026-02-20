@@ -2,35 +2,35 @@
 sidebar_position: 1
 ---
 
-# 📦 インストール方法
+# 📦 Installation
 
-本プラグインは、 **Unity Asset Store** を通じて提供されます。以下の手順でプロジェクトへ導入してください。
+This plugin is distributed through the **Unity Asset Store**. Follow these steps to integrate it into your project.
 
-### 1. アセットの購入
+### 1. Purchase the Asset
 
-ブラウザでアセットを購入後、マイライブラリに追加します。
+Purchase the asset in your browser and add it to your library.
 
 * **Asset Store URL:** [https://assetstore.unity.com/packages/slug/360718](https://assetstore.unity.com/packages/slug/360718)
 
-### 2. Unityへのインポート
+### 2. Import into Unity
 
-Unityエディタに戻り、以下の手順でインポートを行います。
+Return to the Unity Editor and follow these steps to import:
 
-1. **[Package Manager](https://docs.unity3d.com/ja/2023.2/Manual/Packages.html)** を開く (`Window > Package Manager`)
-2. 左上のドロップダウンから **"Packages: My Assets"** を選択
-3. 検索窓にアセット名`Logify`（または `360718`）を入力
-4. **Download** ボタンをクリックし、完了後に **Import** をクリック
+1. Open **[Package Manager](https://docs.unity3d.com/Manual/Packages.html)** (`Window > Package Manager`)
+2. Select **"Packages: My Assets"** from the dropdown in the top-left
+3. Enter the asset name `Logify` (or `360718`) in the search field
+4. Click **Download**, then click **Import** once completed
 
-### 3. インポートの確認
+### 3. Verify Installation
 
-本プラグインは [Package Manager (UPM)](https://docs.unity3d.com/ja/2023.2/Manual/Packages.html) で管理されます。  
-インストール状態の確認は、Package Manager 内の "Packages: In Project" を参照してください。
+This plugin is managed via [Package Manager (UPM)](https://docs.unity3d.com/Manual/Packages.html).
+To verify installation status, check "Packages: In Project" in the Package Manager.
 
-:::tip ヒント
-* **依存関係:** 特殊な外部ライブラリの事前導入は不要です
-* **Assembly Definition:** `Runtime` および `Editor` はそれぞれ Assembly Definition (asmdef) で分離されています
+:::tip Tips
+* **Dependencies:** No special external libraries need to be installed beforehand
+* **Assembly Definition:** `Runtime` and `Editor` are separated by Assembly Definition (asmdef)
 
-**Assembly名:**
+**Assembly Names:**
 * **Runtime:** Ishix.Logify.Unity
 * **Editor:** Ishix.Logify.Unity.Editor
 :::

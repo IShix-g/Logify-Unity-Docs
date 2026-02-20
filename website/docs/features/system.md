@@ -4,78 +4,78 @@ sidebar_position: 3
 
 # ⚙️ System - Detailed
 
-動作している端末のハードウェアおよびソフトウェア情報を一覧表示します。
-不具合が発生した際、特定のOSバージョンやCPUアーキテクチャに依存する問題かどうかを即座に判断できます。
+Displays a list of hardware and software information for the running device.
+When issues occur, you can immediately determine whether problems are dependent on specific OS versions or CPU architectures.
 
 <img src={require('../feature-guide/img/system.jpg').default} width="500" />
 
-### 📋 表示項目一覧
+### 📋 Display Item List
 
-`System` タブでは、以下の情報がカテゴリー別に表示されます。
+The `System` tab displays the following information organized by category.
 
-#### 1. Device & OS (基本情報)
+#### 1. Device & OS (Basic Information)
 
-端末の特定やOS依存の不具合調査に使用します。
+Used for device identification and OS-dependent issue investigation.
 
-| 項目名 | 説明 |
+| Item | Description |
 | --- | --- |
-| **Operating System** | OSの種類とバージョン|
-| **Device Name** | 端末の識別名 |
-| **Device ID** | 端末固有のID（コピー可能） |
-| **Device Type** | Desktop, Handheld などのデバイス種別 |
-| **Device Model** | 具体的なモデル名（例：iPhone15,3） |
-| **System Language** | 端末のシステム言語設定 |
-| **Platform** | 動作しているプラットフォーム |
+| **Operating System** | OS type and version |
+| **Device Name** | Device identifier |
+| **Device ID** | Device-unique ID (copyable) |
+| **Device Type** | Device category such as Desktop, Handheld |
+| **Device Model** | Specific model name (e.g., iPhone15,3) |
+| **System Language** | Device system language setting |
+| **Platform** | Running platform |
 
 #### 2. Hardware (CPU/Memory)
 
-演算能力やメモリ容量を確認します。
+Verify processing power and memory capacity.
 
-| 項目名 | 説明 |
+| Item | Description |
 | --- | --- |
-| **CPU Type** | プロセッサの名称・アーキテクチャ |
-| **CPU Count** | 論理プロセッサ数（コア数） |
-| **System Memory** | 物理メモリの総容量 |
-| **Battery Status** | 充電状態（AC接続中か、放電中かなど） |
-| **Battery Level** | バッテリー残量（%） |
+| **CPU Type** | Processor name/architecture |
+| **CPU Count** | Number of logical processors (cores) |
+| **System Memory** | Total physical memory capacity |
+| **Battery Status** | Charging state (AC connected, discharging, etc.) |
+| **Battery Level** | Battery remaining (%) |
 
 #### 3. Graphics & Display
 
-描画負荷やグラフィックス性能、解像度の確認に使用します。
+Used to verify rendering load, graphics performance, and resolution.
 
-| 項目名 | 説明 |
+| Item | Description |
 | --- | --- |
-| **Graphics Name** | GPUの名称 |
-| **Graphics Vendor** | GPUのベンダー |
-| **Graphics Version** | グラフィックスAPIのバージョン |
-| **Graphics Memory** | VRAM（ビデオメモリ）容量。 |
-| **Gfx Type** | グラフィックスAPI（Vulkan, Metal, Direct3D11など） |
-| **Max Tex Size** | サポートされる最大テクスチャサイズ |
-| **Screen Res** | 現在の解像度とリフレッシュレート（Hz） |
-| **DPI** | 画面のピクセル密度 |
-| **Instancing Support** | GPUインスタンシングの可否 |
-| **Compute Shader** | コンピュートシェーダーの可否 |
-| **HDR Display** | HDR表示（RGBAHalf）のサポート可否 |
+| **Graphics Name** | GPU name |
+| **Graphics Vendor** | GPU vendor |
+| **Graphics Version** | Graphics API version |
+| **Graphics Memory** | VRAM (video memory) capacity |
+| **Gfx Type** | Graphics API (Vulkan, Metal, Direct3D11, etc.) |
+| **Max Tex Size** | Supported maximum texture size |
+| **Screen Res** | Current resolution and refresh rate (Hz) |
+| **DPI** | Screen pixel density |
+| **Instancing Support** | GPU instancing availability |
+| **Compute Shader** | Compute shader availability |
+| **HDR Display** | HDR display (RGBAHalf) support availability |
 
 #### 4. Application & Unity
 
-ビルドバージョンやUnityの実行環境を確認します。
+Verify build version and Unity runtime environment.
 
-| 項目名 | 説明 |
+| Item | Description |
 | --- | --- |
-| **Bundle ID** | アプリの識別子（com.company.product） |
-| **App Version** | アプリのバージョン |
-| **Build Number** | モバイル向けのビルド番号（LogifySettingsから取得） |
-| **Unity Version** | 使用されているUnityエディタのバージョン |
-| **IL2CPP** | スクリプティングバックエンドが IL2CPP かどうか |
-| **Install Mode** | ストア経由か、開発用インストールか等の判別 |
-| **Target FPS** | `Application.targetFrameRate` の設定値 |
-| **VSync** | 垂直同期の設定状態 |
+| **Bundle ID** | Application identifier (com.company.product) |
+| **App Version** | Application version |
+| **Build Number** | Mobile build number (retrieved from LogifySettings) |
+| **Unity Version** | Unity Editor version being used |
+| **IL2CPP** | Whether scripting backend is IL2CPP |
+| **Install Mode** | Distinguishes store installation vs. development installation |
+| **Target FPS** | `Application.targetFrameRate` setting value |
+| **VSync** | Vertical sync setting state |
 
-### 💡 活用シーン
+### 💡 Usage Scenarios
 
-:::tip 実戦活用例
-- **シェーダーバグの調査**: `Graphics Name` や `Gfx Type` を確認し、特定のGPU（Adreno/Mali等）特有の描画エラーか、API（Vulkan/OpenGL ES）依存の問題かを切り分けます。
-- **QAコストの削減**: テスターから送られるスクリーンショットに `System` 画面が含まれていれば、それだけで「どのビルドで」「どのスペックの端末で」起きた問題かが確定します。
-- **リリース判定の材料**: `IL2CPP` が `True` になっているか、`Build Number` が最新かを確認し、デバッグビルドとリリース候補ビルドの取り違えを防止します。
-  :::
+:::tip Practical Examples
+- **Shader Bug Investigation**: Check `Graphics Name` and `Gfx Type` to distinguish between GPU-specific (Adreno/Mali, etc.) rendering errors and API-dependent (Vulkan/OpenGL ES) issues.
+- **QA Cost Reduction**: If testers include `System` screen in their screenshots, it immediately identifies "which build" and "which device specs" the problem occurred on.
+- **Release Decision Criteria**: Verify that `IL2CPP` is `True` and `Build Number` is current to prevent confusion between debug and release candidate builds.
+:::

@@ -4,17 +4,17 @@ sidebar_position: 2
 
 # 🪟 Popup & 🍞 Toast
 
-コマンド実行後の通知や、ユーザーへの確認ダイアログを表示するためのユーティリティAPIを提供しています。
+Provides utility APIs for displaying notifications after command execution and confirmation dialogs to users.
 
-## 🪟 Popups (対話型ダイアログ)
+## 🪟 Popups (Interactive Dialogs)
 
-重要な警告や、破壊的な操作の前の最終確認に利用します。
+Use for important warnings or final confirmations before destructive operations.
 
 <img src={require('../img/popup.jpg').default} width="500" className="margin-bottom--md" />
 
-### 実装例
+### Implementation Example
 
-`LogifyPopupSetting` を構築し、`Logi.OpenPopup()` で呼び出します。
+Build `LogifyPopupSetting` and call with `Logi.OpenPopup()`.
 
 ```csharp
 [LogiButton("Danger Zone", "Delete Data")]
@@ -22,16 +22,16 @@ void ShowConfirm()
 {
     Logi.OpenPopup(new LogifyPopupSetting
     {
-        Title = "確認",
-        Message = "すべてのセーブデータを削除しますか？",
+        Title = "Confirmation",
+        Message = "Delete all save data?",
         ConfirmButton = new LogifyPopupButtonSetting
         {
-            Text = "削除する",
+            Text = "Delete",
             OnClick = () => DoDelete()
         },
         CancelButton = new LogifyPopupButtonSetting
         {
-            Text = "戻る"
+            Text = "Cancel"
         }
     });
 }
@@ -40,22 +40,22 @@ void ShowConfirm()
 
 ---
 
-## 🍞 Toasts (一時通知)
+## 🍞 Toasts (Temporary Notifications)
 
-操作の成功やエラーを、ユーザーの入力を妨げずに短時間表示します。
+Display operation success or errors briefly without blocking user input.
 
 <img src={require('../img/toast.jpg').default} width="500" className="margin-bottom--md" />
 
-### 実装例
+### Implementation Example
 
-メッセージと通知タイプ（Information / Warning / Error）を指定して呼び出します。
+Call by specifying message and notification type (Information / Warning / Error).
 
 ```csharp
 [LogiButton("API Test")]
 void TestToast()
 {
-    // シンプルな通知
-    Logi.OpenToast("データの同期が完了しました。", LogifyToastType.Information);
+    // Simple notification
+    Logi.OpenToast("Data synchronization completed.", LogifyToastType.Information);
 }
 
 ```

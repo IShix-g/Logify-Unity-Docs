@@ -2,19 +2,19 @@
 sidebar_position: 2
 ---
 
-# 📋 動作要件
+# 📋 Requirements
 
 * **Unity:** 2022.3+
 * **Platforms:** iOS 12+ / Android Lollipop 5.1 (API 22)+
-* **Scripting Backend:** IL2CPP（推奨） / Mono 対応
+* **Scripting Backend:** IL2CPP (recommended) / Mono supported
 
 :::info
-**💡 補足事項**
+**💡 Additional Notes**
 
-本プラグインは iOS / Android 実機にて動作検証済みです。
+This plugin has been tested and verified on iOS / Android devices.
 
-* **プラットフォーム互換性**
-  `Resources` API が利用可能な環境であれば理論上動作しますが、上記以外のプラットフォームにおける動作はサポート対象外となります。
-* **リソース管理の安全性**
-  内部的に `Resources` フォルダを利用しますが、**ビルド対象外のファイル生成は行いません。** リリース用ビルド（ストア配布用バイナリ）に不要なアセットが混入することはありませんので、安心して導入いただけます。
+* **Platform Compatibility**
+  While it should theoretically work in any environment where the `Resources` API is available, operation on platforms other than those listed above is not officially supported.
+* **Resource Management Safety**
+  Although the plugin uses the `Resources` folder internally, **it does not generate files that are included in builds.** You can safely integrate it without worrying about unnecessary assets being included in release builds (store distribution binaries).
 :::
