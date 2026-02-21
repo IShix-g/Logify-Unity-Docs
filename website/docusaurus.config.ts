@@ -81,7 +81,6 @@ const config: Config = {
         {
           type: 'localeDropdown',
           position: 'right',
-          className: 'navbar-language-mobile',
         },
         {
           href: 'https://assetstore.unity.com/packages/slug/360718',
