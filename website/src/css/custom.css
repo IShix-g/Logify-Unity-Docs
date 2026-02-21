@@ -70,3 +70,17 @@
 .navbar-buy-button::after {
   display: none !important;
 }
+
+@media (max-width: 996px) {
+  .navbar__item.navbar-language-mobile {
+    display: flex !important;
+    padding: 0 0.5rem;
+  }
+
+  .navbar__toggle {
+    order: 0;
+  }
+  .navbar-language-mobile {
+    order: 1;
+  }
+}

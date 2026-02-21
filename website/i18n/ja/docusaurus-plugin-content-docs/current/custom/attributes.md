@@ -97,14 +97,14 @@ void Test(int integer) { }
 <img src={require('./img/input2.jpg').default} width="500" />
 ```csharp
 [LogiInput("Test input Boolean", true)]
-bool TestInput(bool boolean) { }
+void TestInput(bool boolean) { }
 ```
 </TabItem>
 <TabItem value="enum" label="Enum">
 <img src={require('./img/input3.jpg').default} width="500" />
 ```csharp
 [LogiInput("Test input Enum")]
-TestEnum TestInput(TestEnum type) { }
+void TestInput(TestEnum type) { }
 ```
 </TabItem>
 </Tabs>
