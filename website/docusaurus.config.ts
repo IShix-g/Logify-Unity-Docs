@@ -103,11 +103,6 @@ const config: Config = {
           label: 'Support',
           position: 'right',
         },
-        {
-          href: 'https://github.com/IShix-g/Logify-Unity-Docs/issues',
-          label: 'Issues',
-          position: 'right',
-        },
       ],
     },
     footer: {
