@@ -30,6 +30,16 @@ const config: Config = {
   
   onBrokenLinks: 'throw',
 
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: '4BC6A0EBE2CC89F5',
+      },
+    },
+  ],
+  
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -102,6 +112,12 @@ const config: Config = {
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} ${organizationName}.`,
+    },
+    algolia: {
+      appId: 'FNXGVHVVH7',
+      apiKey: '6c150111371a604b65d7788039d747e6',
+      indexName: 'Logify-Unity Docs',
+      contextualSearch: true
     },
     prism: {
       theme: prismThemes.github,
