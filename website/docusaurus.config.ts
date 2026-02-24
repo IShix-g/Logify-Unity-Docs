@@ -175,6 +175,13 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
       additionalLanguages: ['csharp']
     },
+    announcementBar: {
+      id: 'v1_release_wait',
+      content: '🚀 Logify-Unity is coming soon. Stay tuned!',
+      backgroundColor: '#321F41',
+      textColor: '#E6C8FF',
+      isCloseable: false,
+    },
   } satisfies Preset.ThemeConfig,
 };
 
