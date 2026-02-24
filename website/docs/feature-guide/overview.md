@@ -4,6 +4,9 @@ sidebar_position: 1
 title: 🏁 Overview
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ![logo](./img/header.gif)
 
 # 🏁 Overview
@@ -18,7 +21,17 @@ Logify-Unity integrates essential tools for on-device debugging, offering five c
 
 Real-time monitoring of runtime performance.
 
-<img src={require('./img/stats.jpg').default} width="500" />
+<Tabs className="margin-bottom--md">
+<TabItem value="good" label="Good" default>
+<img src={require('./img/stats-good.jpg').default} width="500" />
+</TabItem>
+<TabItem value="warn" label="Warning">
+<img src={require('./img/stats-warn.jpg').default} width="500" />
+</TabItem>
+<TabItem value="bad" label="Bad">
+<img src={require('./img/stats-bad.jpg').default} width="500" />
+</TabItem>
+</Tabs>
 
 * **FPS:** Visual notifications of sudden frame rate changes using color-coded warnings
 * **Memory Monitoring:** Display memory usage by type

@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🏷️ Attribute List
 
 Main attributes for building debug menus.
@@ -39,9 +42,6 @@ void Test() { /* process */ }
 
 When applied to methods with arguments, UI is generated to input values and execute.
 Supports `string`, `int`, `float`, `bool`, `Enum`.
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 | Argument | Description |
 | --- | --- |

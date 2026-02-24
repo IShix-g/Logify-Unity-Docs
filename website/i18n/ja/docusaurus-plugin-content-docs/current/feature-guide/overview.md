@@ -4,6 +4,9 @@ sidebar_position: 1
 title: 🏁 概要
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ![logo](./img/header.jpg)
 
 # 🏁 概要
@@ -18,7 +21,17 @@ Logify-Unityは、実機デバッグに必要なツールを統合した、以�
 
 実行中のパフォーマンスをリアルタイムで監視します。
 
-<img src={require('./img/stats.jpg').default} width="500" />
+<Tabs className="margin-bottom--md">
+<TabItem value="good" label="Good" default>
+<img src={require('./img/stats-good.jpg').default} width="500" />
+</TabItem>
+<TabItem value="warn" label="Warning">
+<img src={require('./img/stats-warn.jpg').default} width="500" />
+</TabItem>
+<TabItem value="bad" label="Bad">
+<img src={require('./img/stats-bad.jpg').default} width="500" />
+</TabItem>
+</Tabs>
 
 * **FPS:** 急激なフレームレートの推移をカラーリング（警告色）で視覚的に通知します
 * **メモリ監視:** 種類別にメモリの使用量を表示

@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🏷️ Attribute一覧
 
 デバッグメニューを構築するための主要な属性（Attributes）です。
@@ -39,9 +42,6 @@ void Test() { /* 処理 */ }
 
 引数を持つメソッドに付与すると、値を入力して実行できるUIが生成されます。  
 `string`, `int`, `float`, `bool`, `Enum` に対応しています。
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 | 引数 | 説明 |
 | --- | --- |

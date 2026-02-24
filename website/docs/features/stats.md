@@ -2,12 +2,15 @@
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 📊 Performance Stats
 
 An overlay display feature for real-time monitoring of game performance.
 Continuously displays FPS (frame rate) and various memory usage metrics to help identify performance bottlenecks early.
 
-<img src={require('../feature-guide/img/stats.jpg').default} width="550" />
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="550" />
 
 ### 🛠️ Main Display Items
 
@@ -39,9 +42,6 @@ Displays real-time load conditions (FPS, memory consumption) on screen, allowing
 
 Choose between two display modes to suit your project's debugging needs.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 | Mode | Features |
 | --- | --- |
 | **Detailed** | Displays all statistics in detail |
@@ -49,7 +49,7 @@ import TabItem from '@theme/TabItem';
 
 <Tabs className="margin-bottom--md">
 <TabItem value="num" label="Detailed" default>
-<img src={require('../feature-guide/img/stats.jpg').default} width="500" />
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="500" />
 </TabItem>
 <TabItem value="bool" label="Simple">
 <img src={require('./img/stats-simple.jpg').default} width="500" />
@@ -73,3 +73,15 @@ Fine-tuned adjustments can be made from `Window > Logify-Unity > Settings` to av
 * Dynamically changes text color based on FPS values (e.g., yellow below 30 FPS)
 * Thresholds can be intuitively customized with sliders
 * **Update Interval:** Set update interval (seconds). Default is 0.5 seconds
+
+<Tabs className="margin-bottom--md">
+<TabItem value="good" label="Good" default>
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="500" />
+</TabItem>
+<TabItem value="warn" label="Warning">
+<img src={require('../feature-guide/img/stats-warn.jpg').default} width="500" />
+</TabItem>
+<TabItem value="bad" label="Bad">
+<img src={require('../feature-guide/img/stats-bad.jpg').default} width="500" />
+</TabItem>
+</Tabs>

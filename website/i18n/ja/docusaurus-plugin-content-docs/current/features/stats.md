@@ -2,12 +2,15 @@
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 📊 Performance Stats
 
 ゲームの動作状況をリアルタイムで監視するためのオーバーレイ表示機能です。
 FPS（フレームレート）や各種メモリ使用量を常に確認でき、パフォーマンスのボトルネックを早期に発見するのに役立ちます。
 
-<img src={require('../feature-guide/img/stats.jpg').default} width="550" />
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="550" />
 
 ### 🛠️ 主な表示項目
 
@@ -39,9 +42,6 @@ FPS（フレームレート）や各種メモリ使用量を常に確認でき�
 
 プロジェクトのデバッグニーズに合わせて、2つの表示モードを選択できます。
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 | モード | 特徴 |
 | --- | --- |
 | **Detailed** | すべての統計情報を詳細に表示します |
@@ -49,7 +49,7 @@ import TabItem from '@theme/TabItem';
 
 <Tabs className="margin-bottom--md">
 <TabItem value="num" label="Detailed" default>
-<img src={require('../feature-guide/img/stats.jpg').default} width="500" />
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="500" />
 </TabItem>
 <TabItem value="bool" label="Simple">
 <img src={require('./img/stats-simple.jpg').default} width="500" />
@@ -73,3 +73,15 @@ import TabItem from '@theme/TabItem';
 * FPSの数値に応じてテキストの色を動的に変更します（例：30 FPS以下で黄色など）
 * 閾値はスライダーで直感的にカスタマイズ可能です
 * **Update Interval:** 更新間隔（秒）を設定します。デフォルトは 0.5 秒です
+
+<Tabs className="margin-bottom--md">
+<TabItem value="good" label="Good" default>
+<img src={require('../feature-guide/img/stats-good.jpg').default} width="500" />
+</TabItem>
+<TabItem value="warn" label="Warning">
+<img src={require('../feature-guide/img/stats-warn.jpg').default} width="500" />
+</TabItem>
+<TabItem value="bad" label="Bad">
+<img src={require('../feature-guide/img/stats-bad.jpg').default} width="500" />
+</TabItem>
+</Tabs>
