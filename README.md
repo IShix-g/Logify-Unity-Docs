@@ -4,7 +4,7 @@
 
 # Logify for Unity
 
-**Logify is a professional in-game debugging suite optimized for Unity mobile development.
+**Logify** is a professional in-game debugging suite optimized for Unity mobile development.
 
 > [!IMPORTANT]
 > **Paid Asset:** A valid license from the [Unity Asset Store](https://assetstore.unity.com/packages/slug/360718) is required for use.
