@@ -63,8 +63,20 @@ const config: Config = {
           sidebarCollapsed: false,
           sidebarCollapsible: false,
           routeBasePath: '/',
+          editUrl: 'https://github.com/ishix-g/Logify-Unity-Docs/tree/main/website/',
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: true,
         },
-        blog: false,
+        blog: {
+          path: 'changelog',
+          routeBasePath: 'changelog',
+          blogTitle: 'Changelog',
+          blogDescription: 'Update history for Logify Unity',
+          postsPerPage: 10,
+          showReadingTime: false,
+          blogSidebarTitle: 'Changelog',
+          blogSidebarCount: 'ALL',
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -113,6 +125,43 @@ const config: Config = {
       ],
     },
     footer: {
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Introduction',
+              to: '/',
+            },
+            {
+              label: 'Installation',
+              to: '/getting-started/installation',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Support (Discussions)',
+              href: 'https://github.com/IShix-g/Logify-Unity-Docs/discussions',
+            },
+          ],
+        },
+        {
+          title: 'More',
+          items: [
+            {
+              label: 'Changelog',
+              to: '/changelog',
+            },
+            {
+              label: 'Buy Now (Asset Store)',
+              href: 'https://assetstore.unity.com/packages/slug/360718',
+            },
+          ],
+        },
+      ],
       copyright: `© ${new Date().getFullYear()} ${organizationName}.`,
     },
     algolia: {

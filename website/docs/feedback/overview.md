@@ -9,7 +9,7 @@ sidebar_position: 1
 Provides a dedicated form to receive feedback directly from testers and development members.
 A `Feedback` tab is automatically added within the [Custom](../custom/overview.md) tab, allowing reports to be submitted from there.
 
-![Feedback Form](../feature-guide/img/feedback.jpg)
+<img src={require('../feature-guide/img/feedback.jpg').default} width="500" />
 
 ## 🎯 Main Features
 

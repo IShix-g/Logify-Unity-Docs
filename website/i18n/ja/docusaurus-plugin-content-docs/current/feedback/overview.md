@@ -9,7 +9,7 @@ sidebar_position: 1
 テスターや開発メンバーから直接フィードバックを受け付けるための専用フォームを提供します。
 [Custom](../custom/overview.md) タブ内に自動的に `Feedback` タブが追加され、そこから報告を行うことができます。
 
-![Feedback Form](../feature-guide/img/feedback.jpg)
+<img src={require('../feature-guide/img/feedback.jpg').default} width="500" />
 
 ## 🎯 主な機能
 
