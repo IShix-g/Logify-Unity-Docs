@@ -119,7 +119,7 @@ const config: Config = {
       indexName: 'Logify-Unity Docs',
       contextualSearch: true,
       replaceSearchResultPathname: {
-        from: '/Logify-Unity-Docs/',
+        from: '/Logify-Unity-Docs/ja/',
         to: '/',
       },
     },
