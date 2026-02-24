@@ -118,10 +118,6 @@ const config: Config = {
       apiKey: '6c150111371a604b65d7788039d747e6',
       indexName: 'Logify-Unity Docs',
       contextualSearch: true,
-      replaceSearchResultPathname: {
-        from: '/Logify-Unity-Docs/ja/',
-        to: '/',
-      },
     },
     prism: {
       theme: prismThemes.github,
