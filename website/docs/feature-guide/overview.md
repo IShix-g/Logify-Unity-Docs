@@ -4,7 +4,7 @@ sidebar_position: 1
 title: 🏁 Overview
 ---
 
-![logo](./img/header.jpg)
+![logo](./img/header.gif)
 
 # 🏁 Overview
 
