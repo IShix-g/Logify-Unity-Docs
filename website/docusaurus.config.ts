@@ -116,11 +116,7 @@ const config: Config = {
     algolia: {
       appId: 'FNXGVHVVH7',
       apiKey: '6c150111371a604b65d7788039d747e6',
-      indexName: 'Logify-Unity Docs',
-      contextualSearch: false,
-      searchParameters: {
-        facetFilters: [],
-      },
+      indexName: 'Logify-Unity Docs'
     },
     prism: {
       theme: prismThemes.github,
