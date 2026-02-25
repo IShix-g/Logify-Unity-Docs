@@ -63,7 +63,7 @@ const config: Config = {
           sidebarCollapsed: false,
           sidebarCollapsible: false,
           routeBasePath: '/',
-          editUrl: 'https://github.com/ishix-g/Logify-Unity-Docs/tree/main/website/',
+          // editUrl: 'https://github.com/ishix-g/Logify-Unity-Docs/tree/main/website/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: true,
         },
@@ -76,6 +76,17 @@ const config: Config = {
           showReadingTime: false,
           blogSidebarTitle: 'Changelog',
           blogSidebarCount: 'ALL',
+          feedOptions: {
+            type: 'all',
+            copyright: `Copyright © ${new Date().getFullYear()} ${organizationName}`,
+            createFeedItems: async (params) => {
+              const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+              return defaultCreateFeedItems({
+                blogPosts: blogPosts.filter((item, index) => index < 10),
+                ...rest,
+              });
+            },
+          },
         },
         theme: {
           customCss: './src/css/custom.css',
