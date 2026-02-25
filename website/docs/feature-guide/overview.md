@@ -7,7 +7,7 @@ title: 🏁 Overview
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-![logo](./img/header.gif)
+![logo](/img/header.gif)
 
 # 🏁 Overview
 

@@ -7,7 +7,7 @@ title: 🏁 概要
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-![logo](./img/header.jpg)
+![logo](/img/header.gif)
 
 # 🏁 概要
 
