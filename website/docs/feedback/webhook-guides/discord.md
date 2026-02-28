@@ -69,3 +69,14 @@ Once setup is complete, test whether feedback is actually received.
 
 ### 📬 Reception Example
 <img src={require('../../feature-guide/img/discord.jpg').default} width="550" />
+
+---
+
+### 🗄️ Server-Side Integration (Optional)
+
+You're all set with the basic configuration!
+
+If you plan to **distribute your build to a wider group of testers**, or if you require enhanced security and flexible notifications (such as email integration), consider using a dedicated backend server.
+
+* ⚙️ **[PHP Server Setup and Operations](../advanced/server-setup.md)** Build your own backend to fully obfuscate tokens and ensure secure, encrypted communication.
+* 🛡️ **[Server Operations and Security](../advanced/secure-server.md)** Learn why a server is beneficial for external testing, including the advantages of centralized risk management.
