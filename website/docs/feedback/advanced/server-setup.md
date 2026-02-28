@@ -35,12 +35,12 @@ This script automatically performs the following:
 * Generates `.htaccess` for security protection
 * Generates initial configuration file (`config.php`)
 
+#### Setup Complete Screen
+
 :::info After Setup Completion
 Be sure to save the **Server URL** displayed on screen. You'll use it in Unity settings.
 For security, we recommend manually deleting `setup.php` from the server after completion.
 :::
-
-#### Setup Complete Screen
 
 <img src={require('./img/setup3.jpg').default} width="550" className="margin-bottom--md" />
 

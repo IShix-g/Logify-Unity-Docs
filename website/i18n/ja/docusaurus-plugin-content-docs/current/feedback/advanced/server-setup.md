@@ -35,12 +35,12 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 * セキュリティ保護用の `.htaccess` 生成
 * 初期設定ファイル（`config.php`）の生成
 
+#### 設定完了画面
+
 :::info セットアップ完了後
 画面に表示される **Server URL** を必ず控えてください。Unity 側の設定で使用します。
 また、セキュリティのため完了後はサーバー上の `setup.php` を手動で削除することを推奨します。
 :::
-
-#### 設定完了画面
 
 <img src={require('./img/setup3.jpg').default} width="550" className="margin-bottom--md" />
 
