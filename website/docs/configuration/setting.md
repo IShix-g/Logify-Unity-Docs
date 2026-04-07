@@ -12,6 +12,8 @@ The behavior of this plugin can be centrally managed from **Window > Logify-Unit
 
 ## 🛠️ General Settings
 
+<img src={require('./img/settings1.jpg').default} width="500" />
+
 Controls when the plugin is activated across the entire application.
 
 | Setting | Description |
@@ -25,10 +27,14 @@ Controls when the plugin is activated across the entire application.
 
 Configure how users invoke the feedback screen.
 
+<img src={require('./img/settings2.jpg').default} width="500" />
+
 * **Dialog Trigger Position**: Choose the transparent trigger button placement from the screen's four corners.
 * **Dialog Trigger Mode**: Select the trigger response mode.
 * **Long Press**: Recommended (default) to prevent accidental activation.
 * **Tap**: Activate with a simple tap.
+* **Double Tap**: Tap twice consecutively.
+* **Triple Tap**: Tap three times consecutively.
 
 :::tip Preview
 When the Game Window is displayed, clicking on the **Trigger Position** allows you to confirm the location.
@@ -42,6 +48,17 @@ Display real-time performance statistics (Stats) on screen.
 
 ### Stats Settings
 
+<img src={require('./img/settings3.jpg').default} width="500" />
+
+#### Activation Scope:
+
+| Target | Description |
+| --- | --- |
+| **Disabled** | Completely disables the feature |
+| **Editor Only** | Operates only within the Unity Editor |
+| **Development Build Only** | Operates only on devices with a Development Build |
+| **Both** | Operates in both the Editor and Development Builds |
+
 #### Visual Appearance:
 * **Mode**: Toggle between `Simple` (FPS/memory only) and detailed display
 * **Font Size / Position**: Adjustable to match your device resolution during development
@@ -49,9 +66,14 @@ Display real-time performance statistics (Stats) on screen.
 #### Performance Thresholds:
 * Set thresholds that change colors (Red/Yellow/Green) according to FPS values
 
+**Update Interval (sec)**: Specify the interval in seconds to update the statistics
+
 ### System Utilities {#system-utilities}
 
+<img src={require('./img/settings4.jpg').default} width="500" />
+
 * **Max Log Capacity**: Maximum number of Console Logs retained in memory
+* **Enable System Utilities**: Adds features such as FPS adjustment within the [Custom](../custom/overview.md) tab
 * **Force Logging In Build**: Controls whether to forcibly collect logs even in non-development builds
 
 ---
