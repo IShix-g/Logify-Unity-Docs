@@ -31,10 +31,12 @@ Configure how users invoke the feedback screen.
 
 * **Dialog Trigger Position**: Choose the transparent trigger button placement from the screen's four corners.
 * **Dialog Trigger Mode**: Select the trigger response mode.
-* **Long Press**: Recommended (default) to prevent accidental activation.
-* **Tap**: Activate with a simple tap.
-* **Double Tap**: Tap twice consecutively.
-* **Triple Tap**: Tap three times consecutively.
+
+| Mode | Description |
+| --- | --- |
+| **Long Press** | Press and hold |
+| **Double Tap** | Tap twice consecutively |
+| **Triple Tap** | Tap three times consecutively |
 
 :::tip Preview
 When the Game Window is displayed, clicking on the **Trigger Position** allows you to confirm the location.
