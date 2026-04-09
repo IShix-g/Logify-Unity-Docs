@@ -4,6 +4,12 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const organizationName = 'IShix-g';
 const projectName = 'Logify-Unity-Docs';
+const lastUpdatedAt = new Date().toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: '2-digit',
+});
+const historyUrl = 'https://github.com/IShix-g/Logify-Unity-Docs/commits/main/';
 
 const config: Config = {
   title: 'Logify-Unity',
@@ -65,13 +71,13 @@ const config: Config = {
           routeBasePath: '/',
           // editUrl: 'https://github.com/ishix-g/Logify-Unity-Docs/tree/main/website/',
           showLastUpdateAuthor: false,
-          showLastUpdateTime: true,
+          showLastUpdateTime: false,
         },
         blog: {
           path: 'changelog',
           routeBasePath: 'changelog',
           blogTitle: 'Changelog',
-          blogDescription: 'Update history for Logify Unity',
+          blogDescription: 'Update history for Logify-Unity',
           postsPerPage: 10,
           showReadingTime: false,
           blogSidebarTitle: 'Changelog',
@@ -87,6 +93,8 @@ const config: Config = {
               });
             },
           },
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -173,7 +181,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} ${organizationName}.`,
+      copyright: `© ${new Date().getFullYear()} ${organizationName}.<br /><a href="${historyUrl}" class="footer-last-update">Last Updated: ${lastUpdatedAt}</a>`,
     },
     algolia: {
       appId: 'FNXGVHVVH7',
