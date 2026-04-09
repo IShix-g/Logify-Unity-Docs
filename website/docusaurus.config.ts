@@ -181,7 +181,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} ${organizationName}.<br /><a href="${historyUrl}" class="footer-last-update">Last Updated: ${lastUpdatedAt}</a>`,
+      copyright: `© ${new Date().getFullYear()} ${organizationName}.<br /><a href="${historyUrl}" class="footer-latest" target="_blank">Latest: ${lastUpdatedAt}</a>`,
     },
     algolia: {
       appId: 'FNXGVHVVH7',
