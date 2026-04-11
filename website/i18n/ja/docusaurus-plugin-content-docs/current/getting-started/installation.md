@@ -31,6 +31,6 @@ Unityエディタに戻り、以下の手順でインポートを行います。
 * **Assembly Definition:** `Runtime` および `Editor` はそれぞれ Assembly Definition (asmdef) で分離されています
 
 **Assembly名:**
-* **Runtime:** Ishix.Logify.Unity
-* **Editor:** Ishix.Logify.Unity.Editor
+* **Runtime:** Ishix.Logify
+* **Editor:** Ishix.Logify.Editor
 :::

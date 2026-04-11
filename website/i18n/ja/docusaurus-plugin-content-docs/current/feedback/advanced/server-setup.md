@@ -16,7 +16,7 @@ sidebar_position: 1
 ## 🚀 サーバーのデプロイ
 
 ### 1. スクリプトの書き出し
-Unity エディタのメニューから `Window > Logify-Unity > Export Server Script` を選択し、PHP ファイル一式を任意の場所に出力します。
+Unity エディタのメニューから `Window > Logify > Export Server Script` を選択し、PHP ファイル一式を任意の場所に出力します。
 
 <img src={require('./img/setup1.jpg').default} width="550" className="margin-bottom--md" />
 
@@ -49,7 +49,7 @@ Unity エディタのメニューから `Window > Logify-Unity > Export Server S
 ## 🛠️ Unity 側の設定
 
 ### 1. サービスの選択とURLの設定
-`Window > Logify-Unity > Settings` を開き、**Feedback Service** に `HTTP Feedback Service` を選択します。
+`Window > Logify > Settings` を開き、**Feedback Service** に `HTTP Feedback Service` を選択します。
 * **Server Url**: 先ほど控えた URL を入力します。
 
 <img src={require('./img/setup4.jpg').default} width="550" className="margin-bottom--md" />

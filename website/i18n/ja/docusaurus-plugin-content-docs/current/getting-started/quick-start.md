@@ -16,7 +16,7 @@ sidebar_position: 2
 
 ### 2. 操作のカスタマイズ
 
-**設定：** `Window > Logify-Unity > Settings`
+**設定：** `Window > Logify > Settings`
 
 プロジェクトのUI配置に合わせて、起動条件は自由に変更可能です。
 
@@ -29,6 +29,6 @@ sidebar_position: 2
 
 :::tip 補足
 * **シーンを汚さない設計:** `[RuntimeInitializeOnLoadMethod]` を使用して自動生成されるため、既存のシーン構造に影響を与えません
-* **有効化/無効化の切り替え:** `Window > Logify-Unity > Settings` から切り替え可能です
+* **有効化/無効化の切り替え:** `Window > Logify > Settings` から切り替え可能です
 * **実機での動作:** iOS / Android の実機環境でも、同様の操作でダイアログを呼び出すことが可能です。
 :::

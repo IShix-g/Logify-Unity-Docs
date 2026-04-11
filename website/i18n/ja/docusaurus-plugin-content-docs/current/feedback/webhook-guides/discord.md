@@ -29,10 +29,10 @@ Discordの[Webhook 機能](https://support.discord.com/hc/en-us/articles/2283836
 
 ## Unity 側の設定 {#unity-setup}
 
-取得した Webhook URL を Logify-Unity に組み込みます。
+取得した Webhook URL を Logify に組み込みます。
 
 #### 1. 設定を開く
-メニューバーの `Window > Logify-Unity > Settings` から設定ウィンドウを開きます。
+メニューバーの `Window > Logify > Settings` から設定ウィンドウを開きます。
 
 #### 2. サービスの選択
 **Feedback Integration** セクションの **Feedback Service** ドロップダウンから、`Discord Feedback Service` を選択します。その後、**Secret Generator** の **Open** ボタンをクリックして生成ツールを開きます。

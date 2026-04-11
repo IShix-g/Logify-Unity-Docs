@@ -16,7 +16,7 @@ This configuration is recommended when distributing apps to unspecified users or
 ## 🚀 Server Deployment
 
 ### 1. Export Scripts
-Select `Window > Logify-Unity > Export Server Script` from Unity Editor menu and output the PHP file set to any location.
+Select `Window > Logify > Export Server Script` from Unity Editor menu and output the PHP file set to any location.
 
 <img src={require('./img/setup1.jpg').default} width="550" className="margin-bottom--md" />
 
@@ -49,7 +49,7 @@ For security, we recommend manually deleting `setup.php` from the server after c
 ## 🛠️ Unity Setup
 
 ### 1. Select Service and Set URL
-Open `Window > Logify-Unity > Settings` and select `HTTP Feedback Service` for **Feedback Service**.
+Open `Window > Logify > Settings` and select `HTTP Feedback Service` for **Feedback Service**.
 * **Server Url**: Enter the URL you saved earlier.
 
 <img src={require('./img/setup4.jpg').default} width="550" className="margin-bottom--md" />

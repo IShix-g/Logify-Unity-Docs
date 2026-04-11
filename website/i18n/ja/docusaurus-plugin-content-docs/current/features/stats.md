@@ -58,7 +58,7 @@ FPS（フレームレート）や各種メモリ使用量を常に確認でき�
 
 ### ⚙️ カスタマイズ（Settings）
 
-`Window > Logify-Unity > Settings` から、アプリのUIを邪魔しないように細かく調整が可能です。
+`Window > Logify > Settings` から、アプリのUIを邪魔しないように細かく調整が可能です。
 
 <img src={require('./img/stats-setting.jpg').default} width="500" />
 

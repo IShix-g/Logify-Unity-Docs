@@ -209,7 +209,7 @@ void UpdateLog(string text) { }
 
 When Unity's build setting **Managed Stripping Level** is set to **Medium** or **High**, methods and fields not directly referenced in code may be removed (stripped) by Unity during builds.
 
-Since `Logify-Unity` uses reflection to detect Attributes, they won't appear in the debug menu if stripped. If this occurs, add the **`[Preserve]`** attribute alongside attributes on members.
+Since `Logify` uses reflection to detect Attributes, they won't appear in the debug menu if stripped. If this occurs, add the **`[Preserve]`** attribute alongside attributes on members.
 
 ```csharp
 using UnityEngine.Scripting; // Required for Preserve attribute

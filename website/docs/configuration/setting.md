@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # ⚙️ Settings Guide
 
-The behavior of this plugin can be centrally managed from **Window > Logify-Unity > Settings** in the Unity Editor.
+The behavior of this plugin can be centrally managed from **Window > Logify > Settings** in the Unity Editor.
 
 <img src={require('./img/settings.jpg').default} width="500" />
 

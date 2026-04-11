@@ -98,10 +98,10 @@ Bot は招待されたチャンネルにのみ投稿できます。
 
 ## Unity 側の設定 {#unity-setup}
 
-取得した「トークン」と「チャンネルID」を Logify-Unity に組み込みます。
+取得した「トークン」と「チャンネルID」を Logify に組み込みます。
 
 ### 1. 設定を開く
-メニューバーの `Window > Logify-Unity > Settings` から設定ウィンドウを開きます。
+メニューバーの `Window > Logify > Settings` から設定ウィンドウを開きます。
 
 ### 2. サービスの選択
 **Feedback Integration** セクションの **Feedback Service** ドロップダウンから、`Slack Feedback Service` を選択します。その後、**Secret Generator** の **Open** ボタンをクリックして生成ツールを開きます。

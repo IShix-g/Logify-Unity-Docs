@@ -29,10 +29,10 @@ First, issue a Webhook URL on the Discord server where you want to receive feedb
 
 ## Unity Setup {#unity-setup}
 
-Integrate the obtained Webhook URL into Logify-Unity.
+Integrate the obtained Webhook URL into Logify.
 
 #### 1. Open Settings
-Open the settings window from the menu bar `Window > Logify-Unity > Settings`.
+Open the settings window from the menu bar `Window > Logify > Settings`.
 
 #### 2. Select Service
 In the **Feedback Integration** section, select `Discord Feedback Service` from the **Feedback Service** dropdown. Then click the **Open** button of **Secret Generator** to open the generation tool.

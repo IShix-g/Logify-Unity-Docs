@@ -16,7 +16,7 @@ This plugin requires **no initial setup** after import. You can test functionali
 
 ### 2. Customizing Controls
 
-**Settings:** `Window > Logify-Unity > Settings`
+**Settings:** `Window > Logify > Settings`
 
 The activation conditions can be freely adjusted to match your project's UI layout.
 
@@ -29,6 +29,6 @@ The activation conditions can be freely adjusted to match your project's UI layo
 
 :::tip Notes
 * **Clean Scene Design:** Auto-generated using `[RuntimeInitializeOnLoadMethod]`, so it doesn't affect existing scene structure
-* **Enable/Disable Toggle:** Can be switched from `Window > Logify-Unity > Settings`
+* **Enable/Disable Toggle:** Can be switched from `Window > Logify > Settings`
 * **Device Operation:** Works the same way on iOS / Android devices with similar gestures.
 :::

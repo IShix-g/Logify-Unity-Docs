@@ -58,7 +58,7 @@ Choose between two display modes to suit your project's debugging needs.
 
 ### ⚙️ Customization (Settings)
 
-Fine-tuned adjustments can be made from `Window > Logify-Unity > Settings` to avoid interfering with your app's UI.
+Fine-tuned adjustments can be made from `Window > Logify > Settings` to avoid interfering with your app's UI.
 
 <img src={require('./img/stats-setting.jpg').default} width="500" />
 

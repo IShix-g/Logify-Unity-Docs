@@ -33,7 +33,7 @@ The following features are not available:
 To limit memory consumption, there is a cap on the number of logs retained.
 
 * **Default:** 1000 entries
-* **How to change:** Adjustable from Unity menu `Window > Logify-Unity > Settings`.
+* **How to change:** Adjustable from Unity menu `Window > Logify > Settings`.
 
 :::tip
 Significantly increasing the maximum log count may impact device UI rendering performance (GC Alloc, etc.). We recommend operating with the default 1000 entries. When you need to track large volumes of logs, we recommend using the **Feedback feature** described later to send log files externally.

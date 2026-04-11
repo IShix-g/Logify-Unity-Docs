@@ -209,7 +209,7 @@ void UpdateLog(string text) { }
 
 Unityのビルド設定で **Managed Stripping Level** が **Medium** または **High** に設定されている場合、コード上で直接参照されていないメソッドやフィールドは、Unityによってビルドから削除（ストリップ）される可能性があります。
 
-`Logify-Unity` はリフレクションを使用して Attribute を検知するため、ストリッピングの対象になるとデバッグメニューに表示されません。この問題が発生した場合、Attribute を付与したメンバに **`[Preserve]`** 属性を併記してください。
+`Logify` はリフレクションを使用して Attribute を検知するため、ストリッピングの対象になるとデバッグメニューに表示されません。この問題が発生した場合、Attribute を付与したメンバに **`[Preserve]`** 属性を併記してください。
 
 ```csharp
 using UnityEngine.Scripting; // Preserve属性に必要

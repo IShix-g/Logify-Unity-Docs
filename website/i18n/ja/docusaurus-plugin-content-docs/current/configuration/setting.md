@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # ⚙️ Settings (設定ガイド)
 
-本プラグインの動作振る舞いは、Unityエディタ上の **Window > Logify-Unity > Settings** から一括で管理できます。
+本プラグインの動作振る舞いは、Unityエディタ上の **Window > Logify > Settings** から一括で管理できます。
 
 <img src={require('./img/settings.jpg').default} width="500" />
 

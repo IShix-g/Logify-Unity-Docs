@@ -31,6 +31,6 @@ To verify installation status, check "Packages: In Project" in the Package Manag
 * **Assembly Definition:** `Runtime` and `Editor` are separated by Assembly Definition (asmdef)
 
 **Assembly Names:**
-* **Runtime:** Ishix.Logify.Unity
-* **Editor:** Ishix.Logify.Unity.Editor
+* **Runtime:** Ishix.Logify
+* **Editor:** Ishix.Logify.Editor
 :::

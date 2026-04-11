@@ -11,11 +11,11 @@ import TabItem from '@theme/TabItem';
 
 # 🏁 Overview
 
-**Logify-Unity** is an advanced runtime debugging tool designed to eliminate the frustrations of on-device debugging in Unity mobile game development.
+**Logify** is an advanced runtime debugging tool designed to eliminate the frustrations of on-device debugging in Unity mobile game development.
 
 ### ✨ Key Features
 
-Logify-Unity integrates essential tools for on-device debugging, offering five core features:
+Logify integrates essential tools for on-device debugging, offering five core features:
 
 ### 📊 [Performance Stats](../features/stats.md)
 
@@ -112,4 +112,4 @@ Internally uses `[RuntimeInitializeOnLoadMethod]` to run persistently. No need t
 
 ---
 
-⭐ Loving Logify-Unity? Please consider leaving a review on the [Asset Store](https://assetstore.unity.com/packages/slug/360718)!
+⭐ Loving Logify? Please consider leaving a review on the [Asset Store](https://assetstore.unity.com/packages/slug/360718)!

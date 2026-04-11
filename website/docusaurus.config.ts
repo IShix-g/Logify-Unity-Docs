@@ -12,7 +12,7 @@ const lastUpdatedAt = new Date().toLocaleDateString('en-US', {
 const historyUrl = 'https://github.com/IShix-g/Logify-Unity-Docs/commits/main/';
 
 const config: Config = {
-  title: 'Logify-Unity',
+  title: 'Logify',
   tagline: 'Real-time in-game debug monitor for faster development.',
   favicon: 'img/favicon.ico',
 
@@ -77,7 +77,7 @@ const config: Config = {
           path: 'changelog',
           routeBasePath: 'changelog',
           blogTitle: 'Changelog',
-          blogDescription: 'Update history for Logify-Unity',
+          blogDescription: 'Update history for Logify',
           postsPerPage: 10,
           showReadingTime: false,
           blogSidebarTitle: 'Changelog',
@@ -120,7 +120,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Logify-Unity',
+      title: 'Logify',
       logo: {
         alt: 'Logify Logo',
         src: 'img/logo.svg',
@@ -186,7 +186,7 @@ const config: Config = {
     algolia: {
       appId: 'FNXGVHVVH7',
       apiKey: '6c150111371a604b65d7788039d747e6',
-      indexName: 'Logify-Unity Docs',
+      indexName: 'Logify Docs',
       contextualSearch: true,
     },
     prism: {
@@ -196,7 +196,7 @@ const config: Config = {
     },
     announcementBar: {
       id: 'v1_release_wait',
-      content: '🚀 Logify-Unity is coming soon. Stay tuned!',
+      content: '🚀 Logify is coming soon. Stay tuned!',
       backgroundColor: '#321F41',
       textColor: '#E6C8FF',
       isCloseable: false,
