@@ -21,6 +21,10 @@ Developers familiar with the Editor Console can operate intuitively without expl
 * **Tap the count** to toggle display for each level
 * **Detail View:** Tap a log entry to display detailed stack trace at the bottom
 
+#### Copying the Stack Trace
+Long-press the Detail View to copy the stack trace to your clipboard.
+<img src={require('./img/stacktrace-copy.jpg').default} width="500" />
+
 ### ⚠️ Differences from Editor Console
 
 The following features are not available:
