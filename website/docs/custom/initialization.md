@@ -72,7 +72,7 @@ public sealed class MyClass : ILogiCommandGroup, IDisposable
 }
 ```
 
-#### 🛠️ Registration Code
+#### ⌨️ Registration Code
 
 When the interface is implemented, you can register simply by omitting arguments.
 
@@ -88,6 +88,14 @@ Logi.Register(myClass).AddTo(this);
 Registering `static` classes (Type) is **generally not recommended.**
 * **Reason**: If UI depends on objects in the scene, UI persists after scene destruction, causing `MissingReferenceException` during operations.
 * **Recommendation**: Perform explicit registration/unregistration aligned with lifecycle using `MonoBehaviour`'s `OnEnable` / `OnDisable`, etc.
+
+### ⌨️ Registering a static class
+
+```csharp
+void Awake() => Logi.Register(typeof(TestStaticClass), "Tests (static)", 2);
+
+void OnDestroy() => Logi.Unregister(typeof(TestStaticClass));
+```
 
 ---
 

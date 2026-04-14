@@ -72,7 +72,7 @@ public sealed class MyClass : ILogiCommandGroup, IDisposable
 }
 ```
 
-#### 🛠️ 登録側のコード
+#### ⌨️ 登録側のコード
 
 インターフェースを実装している場合、引数を省略してシンプルに登録できます。
 
@@ -88,6 +88,14 @@ Logi.Register(myClass).AddTo(this);
 `static` クラス（Type）の登録は、**原則として推奨されません。**
 * **理由**: UIがシーン内のオブジェクトに依存している場合、シーン破棄後もUIが残り続け、操作時に `MissingReferenceException` を引き起こす原因となります。
 * **推奨**: `MonoBehaviour` の `OnEnable` / `OnDisable` 等、ライフサイクルに合わせた明示的な登録・解除を行ってください。
+
+### ⌨️ staticクラスの登録
+
+```csharp
+void Awake() => Logi.Register(typeof(TestStaticClass), "Tests (static)", 2);
+
+void OnDestroy() => Logi.Unregister(typeof(TestStaticClass));
+```
 
 ---
 
