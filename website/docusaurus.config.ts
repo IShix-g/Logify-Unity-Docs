@@ -11,6 +11,8 @@ const lastUpdatedAt = new Date().toLocaleDateString('en-US', {
 });
 const historyUrl = 'https://github.com/IShix-g/Logify-Unity-Docs/commits/main/';
 
+const isCloudflarePages = process.env.CF_PAGES === '1';
+
 const config: Config = {
   title: 'Logify',
   tagline: 'Real-time in-game debug monitor for faster development.',
@@ -25,7 +27,7 @@ const config: Config = {
   url: 'https://ishix-g.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: `/${projectName}/`,
+  baseUrl: isCloudflarePages ? '/' : `/${projectName}/`,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
