@@ -98,6 +98,23 @@ A form for receiving feedback from testers and development team members.
 
 ---
 
+### ⚡ Zero-Configuration Setup
+
+**No initial setup is required** after importing the package. You don't need to place any prefabs in your scene or write a single line of initialization code.
+
+<img src={require('./img/trigger.png').default} width="420" alt="Trigger area visual guide" />
+
+Simply enter Play Mode in any scene and **long-press the top-left corner** of the screen to open the debug dialog.
+
+:::note Tip
+* **Manual Initialization:** You can disable automatic setup and trigger the initialization at any time via code.
+* **Customizable Triggers:** The trigger area and long-press duration can be adjusted to suit your project's needs.
+
+All configurations are accessible via **Window > Logify > Settings**.
+:::
+
+---
+
 ### 🚀 Development Background
 In mobile development, investigating device-specific bugs that don't reproduce in the editor is always challenging. This library enables visualization and manipulation of internal states on actual devices without cluttering your scenes, with minimal integration cost.
 
