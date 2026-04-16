@@ -1,6 +1,3 @@
-> [!CAUTION]
-> **🚀 Coming Soon!**
-> This asset is currently preparing for release. Please stay tuned for the official launch on the Unity Asset Store.
 
 # Logify for Unity
 
