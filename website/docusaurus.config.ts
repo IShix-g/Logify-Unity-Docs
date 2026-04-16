@@ -10,6 +10,7 @@ const lastUpdatedAt = new Date().toLocaleDateString('en-US', {
   day: '2-digit',
 });
 const historyUrl = 'https://github.com/IShix-g/Logify-Unity-Docs/commits/main/';
+const storeUrl = 'https://assetstore.unity.com/packages/slug/360718';
 
 const isCloudflarePages = process.env.CF_PAGES === '1';
 
@@ -71,7 +72,6 @@ const config: Config = {
           sidebarCollapsed: false,
           sidebarCollapsible: false,
           routeBasePath: '/',
-          // editUrl: 'https://github.com/ishix-g/Logify-Unity-Docs/tree/main/website/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
         },
@@ -133,7 +133,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://assetstore.unity.com/packages/slug/360718',
+          href: storeUrl,
           label: 'BUY NOW',
           position: 'right',
           className: 'navbar-buy-button',
@@ -178,7 +178,7 @@ const config: Config = {
             },
             {
               label: 'Buy Now (Asset Store)',
-              href: 'https://assetstore.unity.com/packages/slug/360718',
+              href: storeUrl,
             },
           ],
         },
@@ -197,11 +197,11 @@ const config: Config = {
       additionalLanguages: ['csharp']
     },
     announcementBar: {
-      id: 'v1_release_wait',
-      content: '🚀 Logify is coming soon. Stay tuned!',
-      backgroundColor: '#321F41',
-      textColor: '#E6C8FF',
-      isCloseable: false,
+      id: 'logify_official_release',
+      content: `🎉 <b>Logify is now available!</b> Get it on the <a href="${storeUrl}" rel="noopener noreferrer" target="_blank">Unity Asset Store</a>`,
+      backgroundColor: '#7b44d6',
+      textColor: '#ffffff',
+      isCloseable: true,
     },
   } satisfies Preset.ThemeConfig,
 };
