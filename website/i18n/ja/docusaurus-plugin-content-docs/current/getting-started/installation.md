@@ -18,7 +18,7 @@ Unityエディタに戻り、以下の手順でインポートを行います。
 
 1. **[Package Manager](https://docs.unity3d.com/ja/2023.2/Manual/Packages.html)** を開く (`Window > Package Manager`)
 2. 左上のドロップダウンから **"Packages: My Assets"** を選択
-3. 検索窓にアセット名`Logify`（または `360718`）を入力
+3. 検索窓にアセット名`Logify`を入力
 4. **Download** ボタンをクリックし、完了後に **Import** をクリック
 
 ### 3. インポートの確認

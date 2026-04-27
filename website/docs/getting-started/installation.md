@@ -18,7 +18,7 @@ Return to the Unity Editor and follow these steps to import:
 
 1. Open **[Package Manager](https://docs.unity3d.com/Manual/Packages.html)** (`Window > Package Manager`)
 2. Select **"Packages: My Assets"** from the dropdown in the top-left
-3. Enter the asset name `Logify` (or `360718`) in the search field
+3. Enter the asset name `Logify` in the search field
 4. Click **Download**, then click **Import** once completed
 
 ### 3. Verify Installation
