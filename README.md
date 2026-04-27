@@ -10,6 +10,6 @@
 
 ## Quick Links
 
-- 📖 **Docs:** [https://logify.ishix-jp.com/](https://logify.ishix-jp.com/)
+- 📖 **Docs:** [https://logify.ishix-jp.com](https://logify.ishix-jp.com)
 - 💬 **Support:** [GitHub Discussions](https://github.com/IShix-g/Logify-Unity-Docs/discussions)
 - 🛒 **Store:** [Unity Asset Store](https://assetstore.unity.com/packages/slug/360718)
