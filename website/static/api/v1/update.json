@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "is_critical": false,
+  "version": "1.0.1",
+  "is_critical": true,
   "download_url": "https://assetstore.unity.com/packages/slug/360718",
-  "message": "First release"
+  "message": "Fixed errors in Input System (New)."
 }
