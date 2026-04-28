@@ -185,12 +185,12 @@ const config: Config = {
       ],
       copyright: `© ${new Date().getFullYear()} ${organizationName}.<br /><a href="${historyUrl}" class="footer-latest" target="_blank">Latest: ${lastUpdatedAt}</a>`,
     },
-    algolia: {
-      appId: 'FNXGVHVVH7',
-      apiKey: '6c150111371a604b65d7788039d747e6',
-      indexName: 'Logify Docs',
-      contextualSearch: true,
-    },
+    // algolia: {
+    //   appId: 'FNXGVHVVH7',
+    //   apiKey: '6c150111371a604b65d7788039d747e6',
+    //   indexName: 'Logify Docs',
+    //   contextualSearch: true,
+    // },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
