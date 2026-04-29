@@ -11,7 +11,7 @@ on:
         description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
         required: true
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: read
