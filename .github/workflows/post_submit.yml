@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '対象のMilestoneタイトル (例: v1.0.2)'
+        description: '対象のMilestoneタイトル (例: 1.0.2)'
         required: true
         type: string
       dry_run:
