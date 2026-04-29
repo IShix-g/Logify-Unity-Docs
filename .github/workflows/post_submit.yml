@@ -1,0 +1,160 @@
+name: "🚀 1. [Store] Submitted: Under Review"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '対象のMilestoneタイトル (例: v1.0.2)'
+        required: true
+        type: string
+      dry_run:
+        description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+  discussions: write
+
+jobs:
+  automate-post-submit:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      
+      # =========================================================
+      # ▼ 定型文の設定（マイルストーン更新用） ▼
+      # =========================================================
+      MILESTONE_TEXT: "Submitted successfully. The asset will be available on the [Asset Store](https://assetstore.unity.com/packages/slug/360718) once the review process is complete."
+      # ※ COMMENT_TEXT はマイルストーンID取得後に動的生成します
+      # =========================================================
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Run Post Submit Scripts
+        run: |
+          # ===== サマリー(結果画面)のヘッダーを作成 =====
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "### 🚧 テスト実行結果 (Dry Run)" >> $GITHUB_STEP_SUMMARY
+            echo "::notice title=🚧 テストモード (Dry Run)::これはテスト実行です。実際の変更は行われません。"
+            echo "========================================="
+            echo " 🚧 ドライランモードで実行中です 🚧"
+            echo "========================================="
+          else
+            echo "### ✅ 本番処理完了" >> $GITHUB_STEP_SUMMARY
+            echo "🚀 本番モードで実行します！(Milestone: $VERSION)"
+          fi
+          echo "**タグ名(Version):** $VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 1. 対象マイルストーンのIDを取得
+          MILESTONE_ID=$(gh api "repos/${GITHUB_REPOSITORY}/milestones" -q ".[] | select(.title==\"$VERSION\") | .number" || true)
+          
+          if [ -z "$MILESTONE_ID" ]; then
+            echo "::error title=Milestone Not Found::Milestone '$VERSION' が見つかりません。"
+            echo "❌ **エラー:** Milestone '$VERSION' が見つかりませんでした。" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          # ====== ▼ コメント用定型文の動的作成 ▼ ======
+          # 取得したIDを使ってマイルストーンのURLを生成し、リンク付きのコメントテキストを作成します
+          MILESTONE_URL="https://github.com/${GITHUB_REPOSITORY}/milestone/${MILESTONE_ID}"
+          COMMENT_TEXT="[${VERSION}](${MILESTONE_URL}) has been submitted! It will be live on the [Asset Store](https://assetstore.unity.com/packages/slug/360718) as soon as the review is complete."
+          # ==========================================
+
+          # 2. マイルストーンの説明(Description)の更新処理
+          CURRENT_DESC=$(gh api "repos/${GITHUB_REPOSITORY}/milestones/$MILESTONE_ID" -q ".description" 2>/dev/null || echo "")
+          if [ "$CURRENT_DESC" == "null" ]; then CURRENT_DESC=""; fi
+          
+          NEW_DESC="$CURRENT_DESC
+          
+          $MILESTONE_TEXT"
+          
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "[DRY RUN] Milestone (ID: $MILESTONE_ID) にテキストを追加予定"
+          else
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/milestones/$MILESTONE_ID" -f description="$NEW_DESC" > /dev/null || true
+            echo "✅ Milestone updated."
+          fi
+
+          # 3. マイルストーンに紐づくOpenなIssueを取得
+          ISSUES=$(gh issue list -m "$VERSION" --state all --json number,body -q ".[] | \"\(.number) \(.body | @base64)\"" || true)
+
+          if [ -z "$ISSUES" ]; then
+            echo "⚠️ 対象のIssueが見つかりませんでした。"
+            echo "処理対象のISSUEはありませんでした。" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "-----------------------------------------"
+            
+            echo "$ISSUES" | while read -r ISSUE_NUM BODY_B64; do
+              if [ -z "$ISSUE_NUM" ]; then continue; fi
+              
+              BODY=$(echo "$BODY_B64" | base64 -d)
+
+              # Issueのコメントとクローズ処理 (エラーが起きても止まらないよう || true を付与)
+              if [ "$DRY_RUN" == "true" ]; then
+                echo "[DRY RUN] 📄 Issue #$ISSUE_NUM にコメント＆クローズ予定"
+              else
+                gh issue comment "$ISSUE_NUM" -b "$COMMENT_TEXT" > /dev/null || true
+                gh issue close "$ISSUE_NUM" > /dev/null || true
+                echo "✅ Issue #$ISSUE_NUM closed and commented."
+              fi
+
+              # DiscussionのURL抽出とコメント処理
+              DISC_URL=$(echo "$BODY" | grep -Eo 'https://github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/discussions/[0-9]+' | head -n 1)
+
+              if [ -n "$DISC_URL" ]; then
+                DISC_OWNER=$(echo "$DISC_URL" | cut -d'/' -f4)
+                DISC_REPO=$(echo "$DISC_URL" | cut -d'/' -f5)
+                DISC_NUM=$(echo "$DISC_URL" | cut -d'/' -f7)
+
+                if [ "$DRY_RUN" == "true" ]; then
+                  echo "          ┗ 🔗 紐付けられたDiscussionを発見: $DISC_URL (コメント予定)"
+                  echo "- [ISSUE #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): クローズ ([Discussion #${DISC_NUM}](${DISC_URL}) コメント: 予定)" >> $GITHUB_STEP_SUMMARY
+                else
+                  # GraphQL APIエラーでスクリプト全体が落ちないように処理
+                  DISC_NODE_ID=$(gh api graphql -f owner="$DISC_OWNER" -f repo="$DISC_REPO" -F number="$DISC_NUM" -f query='
+                    query($owner: String!, $repo: String!, $number: Int!) {
+                      repository(owner: $owner, name: $repo) {
+                        discussion(number: $number) {
+                          id
+                        }
+                      }
+                    }' -q '.data.repository.discussion.id' 2>/dev/null || echo "")
+                  
+                  if [ -n "$DISC_NODE_ID" ]; then
+                    gh api graphql -f discussionId="$DISC_NODE_ID" -f body="$COMMENT_TEXT" -f query='
+                      mutation($discussionId: ID!, $body: String!) {
+                        addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
+                          clientMutationId
+                        }
+                      }' > /dev/null || true
+                    echo "✅ Discussion commented: $DISC_URL"
+                    echo "- [ISSUE #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): クローズ ([Discussion #${DISC_NUM}](${DISC_URL}) コメント: 済)" >> $GITHUB_STEP_SUMMARY
+                  else
+                    echo "❌ Discussion API Error: $DISC_URL"
+                    echo "- [ISSUE #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): クローズ ([Discussion #${DISC_NUM}](${DISC_URL}) コメント: 失敗)" >> $GITHUB_STEP_SUMMARY
+                  fi
+                fi
+              else
+                if [ "$DRY_RUN" == "true" ]; then
+                  echo "          ┗ ℹ️ DiscussionのURLは見つかりませんでした"
+                fi
+                echo "- [ISSUE #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): クローズ (関連Discussionなし)" >> $GITHUB_STEP_SUMMARY
+              fi
+              echo "-----------------------------------------"
+            done
+          fi
+          
+          # 実行終了時の簡易通知
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "::notice title=✅ テスト完了::詳細は Summary ページを確認してください。"
+          else
+            echo "::notice title=✅ 処理完了::詳細は Summary ページを確認してください。"
+          fi
