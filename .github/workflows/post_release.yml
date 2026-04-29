@@ -1,0 +1,172 @@
+name: "🎉 2. [Store] Published: Go Live!"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '対象のMilestoneタイトル (例: v1.0.2)'
+        required: true
+        type: string
+      dry_run:
+        description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+  discussions: write
+
+jobs:
+  automate-post-release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      
+      # =========================================================
+      # ▼ 定型文の設定 ▼
+      # =========================================================
+      RELEASE_TEXT: "The updates have been approved and are now available on the [Unity Asset Store](https://assetstore.unity.com/packages/slug/360718)."
+      # =========================================================
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Run Post Release Scripts
+        run: |
+          # ===== サマリー(結果画面)のヘッダーを作成 =====
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "### 🚧 リリース後処理: テスト実行結果 (Dry Run)" >> $GITHUB_STEP_SUMMARY
+            echo "::notice title=🚧 テストモード (Dry Run)::実際の変更は行われません。"
+          else
+            echo "### ✅ リリース後処理完了" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "**タグ名(Version):** $VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # =========================================================
+          # 0. 【事前準備とチェック】URLの生成とReleaseの存在確認
+          # =========================================================
+          RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${VERSION}"
+          FULL_RELEASE_TEXT="$RELEASE_TEXT
+          
+          📄 **Release Notes:** [${VERSION}](${RELEASE_URL})"
+
+          if gh release view "$VERSION" > /dev/null 2>&1; then
+            echo "::error title=Release Already Exists::Release '$VERSION' は既に存在します。"
+            echo "❌ **エラー:** Release '$VERSION' は既に存在します。二重処理を防ぐため実行を中止しました。" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          # =========================================================
+          # 1. 対象マイルストーンのIDを取得
+          # =========================================================
+          MILESTONE_ID=$(gh api "repos/${GITHUB_REPOSITORY}/milestones?state=all" -q ".[] | select(.title==\"$VERSION\") | .number" || true)
+          
+          if [ -z "$MILESTONE_ID" ]; then
+            echo "::error title=Milestone Not Found::Milestone '$VERSION' が見つかりません。"
+            echo "❌ **エラー:** Milestone '$VERSION' が見つかりませんでした。" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          # =========================================================
+          # 2. マイルストーンの説明(Description)の【完全上書き】とクローズ
+          # =========================================================
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "- Milestone '$VERSION': 説明を完全に上書きしてクローズ予定" >> $GITHUB_STEP_SUMMARY
+          else
+            # 既存の文章を無視して、$FULL_RELEASE_TEXT だけで上書きします
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/milestones/$MILESTONE_ID" -f state="closed" -f description="$FULL_RELEASE_TEXT" > /dev/null || true
+            echo "✅ Milestone closed and updated (Overwritten)."
+            echo "- Milestone '$VERSION': クローズ完了" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # =========================================================
+          # 3. IssueとDiscussionの処理
+          # =========================================================
+          ISSUES_JSON=$(gh issue list -m "$VERSION" --state closed --json number,title,body,url,labels || true)
+
+          if [ "$ISSUES_JSON" == "[]" ] || [ -z "$ISSUES_JSON" ]; then
+            echo "⚠️ 対象のIssueが見つかりませんでした。"
+            echo "- 処理対象の関連Issue/Discussionはありませんでした。" >> $GITHUB_STEP_SUMMARY
+          else
+            ISSUES_FOR_LOOP=$(echo "$ISSUES_JSON" | jq -r '.[] | "\(.number) \(.body | @base64)"')
+
+            echo "$ISSUES_FOR_LOOP" | while read -r ISSUE_NUM BODY_B64; do
+              if [ -z "$ISSUE_NUM" ]; then continue; fi
+              BODY=$(echo "$BODY_B64" | base64 -d)
+
+              DISC_URL=$(echo "$BODY" | grep -Eo 'https://github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/discussions/[0-9]+' | head -n 1)
+
+              if [ -n "$DISC_URL" ]; then
+                DISC_OWNER=$(echo "$DISC_URL" | cut -d'/' -f4)
+                DISC_REPO=$(echo "$DISC_URL" | cut -d'/' -f5)
+                DISC_NUM=$(echo "$DISC_URL" | cut -d'/' -f7)
+
+                if [ "$DRY_RUN" == "true" ]; then
+                  echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): コメント＆クローズ予定" >> $GITHUB_STEP_SUMMARY
+                else
+                  DISC_NODE_ID=$(gh api graphql -f owner="$DISC_OWNER" -f repo="$DISC_REPO" -F number="$DISC_NUM" -f query='query($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { discussion(number: $number) { id } } }' -q '.data.repository.discussion.id' 2>/dev/null || echo "")
+                  
+                  if [ -n "$DISC_NODE_ID" ]; then
+                    gh api graphql -f discussionId="$DISC_NODE_ID" -f body="$FULL_RELEASE_TEXT" -f query='mutation($discussionId: ID!, $body: String!) { addDiscussionComment(input: {discussionId: $discussionId, body: $body}) { clientMutationId } }' > /dev/null || true
+                    gh api graphql -f discussionId="$DISC_NODE_ID" -f query='mutation($discussionId: ID!) { closeDiscussion(input: {discussionId: $discussionId, reason: RESOLVED}) { clientMutationId } }' > /dev/null || true
+                    echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): クローズ完了" >> $GITHUB_STEP_SUMMARY
+                  else
+                    echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): 処理失敗" >> $GITHUB_STEP_SUMMARY
+                  fi
+                fi
+              fi
+            done
+          fi
+
+          # =========================================================
+          # 4. GitHub Release の作成とリンク表示
+          # =========================================================
+          if [ "$ISSUES_JSON" != "[]" ] && [ -n "$ISSUES_JSON" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "### 📦 生成されるRelease Notes" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            ADDED_NOTES=$(echo "$ISSUES_JSON" | jq -r '.[] | select(any(.labels[]; .name | test("(?i)enhancement"))) | "- \(.title) ([#\(.number)](\(.url)))"')
+            FIXED_NOTES=$(echo "$ISSUES_JSON" | jq -r '.[] | select(any(.labels[]; .name | test("(?i)bug"))) | "- \(.title) ([#\(.number)](\(.url)))"')
+            OTHER_NOTES=$(echo "$ISSUES_JSON" | jq -r '.[] | select(any(.labels[]; .name | test("(?i)(enhancement|bug)")) | not) | "- \(.title) ([#\(.number)](\(.url)))"')
+            
+            RELEASE_BODY_FILE="release_body.md"
+            
+            echo "$RELEASE_TEXT" > $RELEASE_BODY_FILE
+            echo "" >> $RELEASE_BODY_FILE
+
+            if [ -n "$ADDED_NOTES" ]; then
+              echo "### 🚀 Added" >> $RELEASE_BODY_FILE
+              echo "$ADDED_NOTES" >> $RELEASE_BODY_FILE
+              echo "" >> $RELEASE_BODY_FILE
+            fi
+            if [ -n "$FIXED_NOTES" ]; then
+              echo "### 🐛 Fixed" >> $RELEASE_BODY_FILE
+              echo "$FIXED_NOTES" >> $RELEASE_BODY_FILE
+              echo "" >> $RELEASE_BODY_FILE
+            fi
+            if [ -n "$OTHER_NOTES" ]; then
+              echo "### 📝 Other Changes" >> $RELEASE_BODY_FILE
+              echo "$OTHER_NOTES" >> $RELEASE_BODY_FILE
+              echo "" >> $RELEASE_BODY_FILE
+            fi
+
+            cat $RELEASE_BODY_FILE >> $GITHUB_STEP_SUMMARY
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+            if [ "$DRY_RUN" == "true" ]; then
+              echo "*(※ドライランのため、実際のRelease作成はスキップされました)*" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 **予定されるReleaseのリンク:** [${VERSION}](${RELEASE_URL}) (※本番実行後に有効になります)" >> $GITHUB_STEP_SUMMARY
+            else
+              gh release create "$VERSION" --title "$VERSION" --notes-file "$RELEASE_BODY_FILE" || true
+              echo "✅ Release created: $VERSION"
+              echo "🔗 **作成されたReleaseを開く:** [${VERSION}](${RELEASE_URL})" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
