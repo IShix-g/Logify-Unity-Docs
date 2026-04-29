@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '対象のMilestoneタイトル (例: v1.0.2)'
+        description: '対象のMilestoneタイトル (例: 1.0.2)'
         required: true
         type: string
       dry_run:
         description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
         required: true
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: write
@@ -100,6 +100,17 @@ jobs:
               if [ -z "$ISSUE_NUM" ]; then continue; fi
               BODY=$(echo "$BODY_B64" | base64 -d)
 
+              # =========================================================
+              # ▼ 追加: Issueへのコメント投稿処理 ▼
+              # =========================================================
+              if [ "$DRY_RUN" == "true" ]; then
+                echo "- [Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): コメント投稿予定" >> $GITHUB_STEP_SUMMARY
+              else
+                gh issue comment "$ISSUE_NUM" -b "$FULL_RELEASE_TEXT" > /dev/null || true
+                echo "- [Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM}): コメント完了" >> $GITHUB_STEP_SUMMARY
+              fi
+              # =========================================================
+
               DISC_URL=$(echo "$BODY" | grep -Eo 'https://github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/discussions/[0-9]+' | head -n 1)
 
               if [ -n "$DISC_URL" ]; then
@@ -108,16 +119,16 @@ jobs:
                 DISC_NUM=$(echo "$DISC_URL" | cut -d'/' -f7)
 
                 if [ "$DRY_RUN" == "true" ]; then
-                  echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): コメント＆クローズ予定" >> $GITHUB_STEP_SUMMARY
+                  echo "  ┗ [Discussion #${DISC_NUM}](${DISC_URL}) (由来): コメント＆クローズ予定" >> $GITHUB_STEP_SUMMARY
                 else
                   DISC_NODE_ID=$(gh api graphql -f owner="$DISC_OWNER" -f repo="$DISC_REPO" -F number="$DISC_NUM" -f query='query($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { discussion(number: $number) { id } } }' -q '.data.repository.discussion.id' 2>/dev/null || echo "")
                   
                   if [ -n "$DISC_NODE_ID" ]; then
                     gh api graphql -f discussionId="$DISC_NODE_ID" -f body="$FULL_RELEASE_TEXT" -f query='mutation($discussionId: ID!, $body: String!) { addDiscussionComment(input: {discussionId: $discussionId, body: $body}) { clientMutationId } }' > /dev/null || true
                     gh api graphql -f discussionId="$DISC_NODE_ID" -f query='mutation($discussionId: ID!) { closeDiscussion(input: {discussionId: $discussionId, reason: RESOLVED}) { clientMutationId } }' > /dev/null || true
-                    echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): クローズ完了" >> $GITHUB_STEP_SUMMARY
+                    echo "  ┗ [Discussion #${DISC_NUM}](${DISC_URL}) (由来): クローズ完了" >> $GITHUB_STEP_SUMMARY
                   else
-                    echo "- [Discussion #${DISC_NUM}](${DISC_URL}) ([Issue #${ISSUE_NUM}](https://github.com/${GITHUB_REPOSITORY}/issues/${ISSUE_NUM})由来): 処理失敗" >> $GITHUB_STEP_SUMMARY
+                    echo "  ┗ [Discussion #${DISC_NUM}](${DISC_URL}) (由来): 処理失敗" >> $GITHUB_STEP_SUMMARY
                   fi
                 fi
               fi
