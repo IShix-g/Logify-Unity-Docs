@@ -1,6 +1,6 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "is_critical": true,
   "download_url": "https://assetstore.unity.com/packages/slug/360718",
-  "message": "Fixed errors in Input System (New)."
+  "message": "Fix UI build error on device."
 }
