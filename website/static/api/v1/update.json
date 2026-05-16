@@ -1,6 +1,6 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "is_critical": true,
   "download_url": "https://assetstore.unity.com/packages/slug/360718",
-  "message": "Fix UI build error on device."
+  "message": "Fix PHP server."
 }
