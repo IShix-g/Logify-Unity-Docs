@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "is_critical": true,
   "download_url": "https://assetstore.unity.com/packages/slug/360718",
-  "message": "Fix PHP server."
+  "message": "Fix 404 error."
 }
