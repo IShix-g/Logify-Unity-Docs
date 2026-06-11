@@ -1,4 +1,4 @@
-name: "🚀 1. Trigger Release & Merge"
+name: "🚀 Trigger Release & Merge"
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       clean_version: ${{ steps.process-version.outputs.clean_version }}
-      dry_run_status: ${{ inputs.dry_run }} # 後続に dry_run の設定値を引き渡す
+      dry_run_status: ${{ inputs.dry_run }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       IS_DRY_RUN: ${{ inputs.dry_run }}

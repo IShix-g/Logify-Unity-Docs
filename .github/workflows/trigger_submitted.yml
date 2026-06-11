@@ -1,0 +1,64 @@
+name: "🚀 Trigger Submitted"
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: write
+  discussions: write
+
+jobs:
+  check-and-trigger:
+    runs-on: ubuntu-latest
+    outputs:
+      clean_version: ${{ steps.process-version.outputs.clean_version }}
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 1. オープンなマイルストーンの取得（なければ終了）
+      - name: Get Latest Open Milestone
+        id: get-milestone
+        run: |
+          MILESTONE_TITLE=$(gh api repos/${{ github.repository }}/milestones?state=open --jq '.[0].title')
+
+          if [ -z "$MILESTONE_TITLE" ] || [ "$MILESTONE_TITLE" == "null" ]; then
+            echo "❌ オープンなマイルストーンが見つかりませんでした。"
+            exit 1
+          fi
+
+          echo "Found Milestone: $MILESTONE_TITLE"
+          echo "milestone=$MILESTONE_TITLE" >> $GITHUB_OUTPUT
+
+      # 2. バージョン番号の整形（先頭の 'v' を削除）
+      - name: Process Version Number (Remove 'v')
+        id: process-version
+        run: |
+          RAW_VERSION="${{ steps.get-milestone.outputs.milestone }}"
+          CLEAN_VERSION=$(echo "$RAW_VERSION" | sed 's/^v//')
+          
+          echo "clean_version=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+
+  # 3. post_submit.yml の呼び出し
+  call-post-submit:
+    needs: check-and-trigger
+    # post_submit.yml が同じリポジトリの .github/workflows にある場合の指定方法です
+    uses: ./.github/workflows/post_submit.yml
+    with:
+      version: ${{ needs.check-and-trigger.outputs.clean_version }}
+      dry_run: ${{ inputs.dry_run }}
+    secrets: inherit # 必要に応じてシークレットを引き継ぎます

@@ -21,7 +21,7 @@ on:
         type: string
       dry_run:
         description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
-        required: false # 呼び出し元で省略可能にするため false に
+        required: false
         type: boolean
         default: true
 

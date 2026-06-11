@@ -13,6 +13,18 @@ on:
         type: boolean
         default: false
 
+  workflow_call:
+    inputs:
+      version:
+        description: '対象のMilestoneタイトル (例: 1.0.2)'
+        required: true
+        type: string
+      dry_run:
+        description: '【テストモード】チェックのみ実行し、実際の変更は行わない'
+        required: true
+        type: boolean
+        default: false
+
 permissions:
   contents: read
   issues: write
