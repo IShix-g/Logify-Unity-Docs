@@ -1,0 +1,129 @@
+name: "🚀 1. Trigger Release & Merge"
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '【テストモード】マージや更新を行わず、判定ロジックのみ確認する'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: write
+  discussions: write
+
+jobs:
+  check-and-merge:
+    runs-on: ubuntu-latest
+    outputs:
+      clean_version: ${{ steps.process-version.outputs.clean_version }}
+      dry_run_status: ${{ inputs.dry_run }} # 後続に dry_run の設定値を引き渡す
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      IS_DRY_RUN: ${{ inputs.dry_run }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Latest Open Milestone
+        id: get-milestone
+        run: |
+          MILESTONE_TITLE=$(gh api repos/${{ github.repository }}/milestones?state=open --jq '.[0].title')
+
+          if [ -z "$MILESTONE_TITLE" ] || [ "$MILESTONE_TITLE" == "null" ]; then
+            echo "❌ オープンなマイルストーンが見つかりませんでした。"
+            exit 1
+          fi
+
+          echo "Found Milestone: $MILESTONE_TITLE"
+          echo "milestone=$MILESTONE_TITLE" >> $GITHUB_OUTPUT
+
+      - name: Check and Merge Logic
+        id: merge-logic
+        run: |
+          MILESTONE="${{ steps.get-milestone.outputs.milestone }}"
+
+          # Dry Runの通知
+          if [ "$IS_DRY_RUN" == "true" ]; then
+            echo "### 🚧 テストモード (Dry Run) で実行中" >> $GITHUB_STEP_SUMMARY
+            echo "::notice title=🚧 Dry Run::実際のコードマージや本番処理は行われません。"
+          fi
+
+          # バージョン番号の形式チェック
+          if [[ ! "$MILESTONE" =~ v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "❌ マイルストーン名 '$MILESTONE' は有効なバージョン形式ではありません。"
+            echo "::error title=❌ バージョン形式エラー::マイルストーン名 '$MILESTONE' は有効なバージョン形式（例: v1.0.5）ではないため、処理を中断します。"
+            exit 1
+          fi
+          
+          # 常にバージョン情報を一度セット（これで早期終了しても確実に値が残る）
+          echo "matched_version=$MILESTONE" >> $GITHUB_OUTPUT
+
+          # 1. ブランチの検索
+          BRANCH_EXISTS=$(git branch -r | grep -v "origin/main" | grep "$MILESTONE" | head -n 1 | sed 's/^[[:space:]]*origin\///')
+          
+          if [ ! -z "$BRANCH_EXISTS" ]; then
+            echo "🌿 条件に一致するブランチを発見しました: $BRANCH_EXISTS"
+            echo "::notice title=🌿 ブランチ検出::バージョン '$MILESTONE' に一致するブランチ '$BRANCH_EXISTS' を検出しました。"
+          
+            if [ "$IS_DRY_RUN" == "true" ]; then
+              echo "[Dry Run] 本番であればブランチ '$BRANCH_EXISTS' を main にマージします。"
+            else
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git checkout main
+              git merge "origin/$BRANCH_EXISTS" --no-ff -m "chore: merge branch $BRANCH_EXISTS for release $MILESTONE"
+              git push origin main
+              echo "✅ ブランチをマージしました。"
+            fi
+            exit 0
+          fi
+          
+          echo "🔍 一致するブランチがありませんでした。プルリクエストを検索します..."
+          
+          # 2. プルリクエストの検索
+          PR_NUMBER=$(gh pr list --state open --json number,title,headRefName --jq ".[] | select(.title | contains(\"$MILESTONE\")) or select(.headRefName | contains(\"$MILESTONE\")) | .number" | head -n 1)
+          
+          if [ ! -z "$PR_NUMBER" ]; then
+            echo " Pull Request #$PR_NUMBER を発見しました。"
+            echo "::notice title= Pull Request 検出::バージョン '$MILESTONE' に一致する PR #$PR_NUMBER を検出しました。"
+
+            if [ "$IS_DRY_RUN" == "true" ]; then
+              echo "[Dry Run] 本番であれば PR #$PR_NUMBER をマージします。"
+            else
+              gh pr merge $PR_NUMBER --merge --auto
+              echo "✅ プルリクエストをマージしました。"
+            fi
+            exit 0
+          fi
+
+          # 3. ブランチもPRもない場合
+          echo "✨ 一致するブランチやPRはありませんでしたが、マイルストーン名 '$MILESTONE' は有効なバージョン形式です。"
+          echo "::notice title=🚀 マイルストーン直接連携::ブランチ/PRのマージはスキップし、マイルストーン名から直接後続処理を実行します。"
+
+      - name: Process Version Number (Remove 'v')
+        id: process-version
+        run: |
+          RAW_VERSION="${{ steps.merge-logic.outputs.matched_version }}"
+          CLEAN_VERSION=$(echo "$RAW_VERSION" | sed 's/^v//')
+          
+          echo "clean_version=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+
+  # ==========================================
+  # 🎉 後続処理への連携
+  # ==========================================
+  call-post-release:
+    needs: check-and-merge
+    if: success() # 前段のジョブが途中のexit 1等で落ちていなければ、常に実行
+    uses: ./.github/workflows/post_release.yml
+    with:
+      version: ${{ needs.check-and-merge.outputs.clean_version }}
+      dry_run: ${{ fromJson(needs.check-and-merge.outputs.dry_run_status) }}
+    secrets: inherit
